@@ -95,21 +95,21 @@
 - [x] Application `DependencyInjection` extension
 - [x] Infrastructure `DependencyInjection` extension
 - [x] Common exceptions: `NotFoundException`, `ForbiddenAccessException`, `ValidationException`
-- [ ] `appsettings.json` — confirm no secrets ✅
-- [ ] `.NET User Secrets` initialized for Nexora.Api
-- [ ] First successful `dotnet build`
-- [ ] First successful `dotnet test`
+- [x] `appsettings.json` — confirm no secrets ✅
+- [x] `.NET User Secrets` initialized for Nexora.Api
+- [x] First successful `dotnet build`
+- [x] First successful `dotnet test`
 
 ### Flutter Mobile
 
 - [x] `nexora_mobile` Flutter project scaffolded
-- [ ] Basic app structure established
-- [ ] First successful `flutter build`
+- [x] Basic app structure established
+- [x] First successful `flutter analyze` & `flutter test`
 
 ### Blazor Admin
 
 - [x] `Nexora.Admin` Blazor project scaffolded
-- [ ] First successful `dotnet build`
+- [x] First successful `dotnet build`
 
 ### CI
 
@@ -121,33 +121,34 @@
 
 ### Backend
 
-- [ ] ASP.NET Core Identity configured
-- [ ] `User` entity defined
-- [ ] `Role` entity defined
-- [ ] Database migrations for Identity tables
-- [ ] Registration endpoint (`POST /api/auth/register`)
-- [ ] Login endpoint (`POST /api/auth/login`)
-- [ ] Logout endpoint (`POST /api/auth/logout`)
-- [ ] JWT access token issuance
-- [ ] Refresh token issuance and storage
-- [ ] Token refresh endpoint (`POST /api/auth/refresh`)
-- [ ] Token revocation on logout
-- [ ] Password hashing verified
-- [ ] User profile endpoint (`GET /api/users/me`)
-- [ ] Authorization policies defined
+- [x] ASP.NET Core Identity configured
+- [x] `ApplicationUser` entity defined
+- [x] `RefreshToken` entity with rotation tracking defined
+- [x] Database migrations for Identity tables (`InitialIdentityAndRefreshTokens`)
+- [x] Registration endpoint (`POST /api/auth/register`)
+- [x] Login endpoint (`POST /api/auth/login`)
+- [x] Logout endpoint (`POST /api/auth/logout`)
+- [x] JWT access token issuance (HMAC-SHA256, claims, roles)
+- [x] Refresh token issuance and hashed storage
+- [x] Token refresh endpoint (`POST /api/auth/refresh`) with rotation
+- [x] Token revocation on logout
+- [x] Password hashing & validation verified (PBKDF2 via Identity)
+- [x] User profile endpoint (`GET /api/users/me`)
+- [x] Authorization policies defined (`AdminOnly`, `UserOrAdmin`)
 - [ ] Audit log foundation
 
 ### Tests
 
-- [ ] Registration — happy path
-- [ ] Registration — duplicate email
-- [ ] Login — valid credentials
-- [ ] Login — invalid credentials
-- [ ] Token refresh — valid token
-- [ ] Token refresh — expired token
-- [ ] User A cannot access User B's profile
-- [ ] Unauthorized request returns 401
-- [ ] Forbidden request returns 403
+- [x] Registration — happy path
+- [x] Registration — duplicate email
+- [x] Login — valid credentials
+- [x] Login — invalid credentials (constant-time response)
+- [x] Account deactivation check
+- [ ] Integration: Token refresh — valid token
+- [ ] Integration: Token refresh — expired token
+- [ ] Integration: User A cannot access User B's profile
+- [ ] Integration: Unauthorized request returns 401
+- [ ] Integration: Forbidden request returns 403
 
 ### Flutter Mobile
 
