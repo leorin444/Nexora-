@@ -1,7 +1,15 @@
+using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Nexora.Api.Middleware;
 using Nexora.Application;
+using Nexora.Domain.Identity;
 using Nexora.Infrastructure;
+using Nexora.Infrastructure.Persistence;
 using Serilog;
+using System.Text;
 
 // ─── Bootstrap logger (captures startup errors) ─────────────────────────────
 Log.Logger = new LoggerConfiguration()
@@ -23,8 +31,7 @@ try
         .WriteTo.File("logs/nexora-.log", rollingInterval: RollingInterval.Day));
 
     // ─── CORS ─────────────────────────────────────────────────────────────────
-    var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
-                         ?? [];
+    var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("NexoraPolicy", policy =>
@@ -34,21 +41,55 @@ try
                   .AllowCredentials());
     });
 
-    // ─── Application layer ────────────────────────────────────────────────────
+    // ─── Application + Infrastructure layers ─────────────────────────────────
     builder.Services.AddApplicationServices();
-
-    // ─── Infrastructure layer ─────────────────────────────────────────────────
     builder.Services.AddInfrastructureServices(builder.Configuration);
+
+    // ─── JWT Authentication ───────────────────────────────────────────────────
+    var jwtKey = builder.Configuration["Jwt:SecretKey"]
+        ?? throw new InvalidOperationException("Jwt:SecretKey is not configured.");
+
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "NexoraApi",
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "NexoraClients",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ClockSkew = TimeSpan.FromSeconds(30)
+        };
+
+        // SignalR: allow token from query string for WebSocket connections
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = ctx =>
+            {
+                var accessToken = ctx.Request.Query["access_token"];
+                var path = ctx.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                    ctx.Token = accessToken;
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("AdminOnly", p => p.RequireRole("Admin"));
+        options.AddPolicy("UserOrAdmin", p => p.RequireRole("User", "Admin"));
+    });
 
     // ─── Controllers ──────────────────────────────────────────────────────────
     builder.Services.AddControllers();
-
-    // ─── Health checks ────────────────────────────────────────────────────────
-    builder.Services.AddHealthChecks()
-        .AddSqlServer(
-            builder.Configuration.GetConnectionString("DefaultConnection")!,
-            name: "sql-server",
-            tags: ["db", "sql"]);
 
     // ─── OpenAPI (Swagger) ────────────────────────────────────────────────────
     builder.Services.AddEndpointsApiExplorer();
@@ -60,12 +101,21 @@ try
     // ─── SignalR ──────────────────────────────────────────────────────────────
     builder.Services.AddSignalR();
 
+    // ─────────────────────────────────────────────────────────────────────────
     var app = builder.Build();
 
-    // ─── Global exception handler ─────────────────────────────────────────────
-    app.UseMiddleware<GlobalExceptionMiddleware>();
+    // ─── Database migration + seeding on startup ──────────────────────────────
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<NexoraDbContext>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        var seederLogger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        await DatabaseSeeder.SeedAsync(db, userManager, roleManager, seederLogger);
+    }
 
-    // ─── Request logging ──────────────────────────────────────────────────────
+    // ─── Middleware pipeline ──────────────────────────────────────────────────
+    app.UseMiddleware<GlobalExceptionMiddleware>();
     app.UseSerilogRequestLogging();
 
     if (app.Environment.IsDevelopment())
@@ -80,9 +130,11 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
-
-    // ─── Health endpoint ──────────────────────────────────────────────────────
     app.MapHealthChecks("/health");
+    app.MapHangfireDashboard("/hangfire", new DashboardOptions
+    {
+        Authorization = [] // locked down — no anonymous access in production
+    });
 
     app.Run();
 }
@@ -94,3 +146,5 @@ finally
 {
     Log.CloseAndFlush();
 }
+
+public partial class Program { }
