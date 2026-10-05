@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  FLUTTER_VERSION: '3.47.1'
+
+jobs:
+  # ─── Backend build and test ────────────────────────────────────────────────
+  backend:
+    name: Backend — Build & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore Nexora.slnx
+
+      - name: Build
+        run: dotnet build Nexora.slnx --no-restore --configuration Release
+
+      - name: Run Unit Tests
+        run: dotnet test tests/Nexora.UnitTests/Nexora.UnitTests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-results.trx"
+
+      - name: Run Integration Tests
+        run: dotnet test tests/Nexora.IntegrationTests/Nexora.IntegrationTests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-results.trx"
+
+  # ─── Flutter mobile build ──────────────────────────────────────────────────
+  mobile:
+    name: Flutter Mobile — Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./mobile/nexora_mobile
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Analyze Flutter code
+        run: flutter analyze
+
+      - name: Run Flutter tests
+        run: flutter test
+
+  # ─── Admin (Blazor Server) build ───────────────────────────────────────────
+  admin:
+    name: Admin — Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./admin/Nexora.Admin
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release

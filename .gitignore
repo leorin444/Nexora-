@@ -1,0 +1,145 @@
+## ============================================================
+## Nexora — .gitignore
+## Covers: .NET / ASP.NET Core, Flutter/Dart, Blazor,
+##         IDE files, OS files, build artefacts, and SECRETS
+## ============================================================
+
+# ─────────────────────────────────────────────
+# SECRETS — NEVER COMMIT THESE
+# ─────────────────────────────────────────────
+**/appsettings.Production.json
+**/appsettings.Local.json
+**/*.pfx
+**/*.p12
+**/*.key
+**/*.pem
+**/*.cer
+**/*.env
+**/.env.*
+**/secrets.json
+**/*secrets*.json
+
+# ─────────────────────────────────────────────
+# .NET / ASP.NET Core
+# ─────────────────────────────────────────────
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+_ReSharper*/
+TestResults/
+BenchmarkDotNet.Artifacts/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/Properties/launchSettings.json
+*.ncrunch*
+*.DotSettings.user
+.localhistory/
+HealthChecksUI.db
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# Publish output
+**/publish/
+**/PublishProfiles/
+
+# ─────────────────────────────────────────────
+# Flutter / Dart
+# ─────────────────────────────────────────────
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+*.g.dart
+*.freezed.dart
+
+# iOS/macOS native
+**/ios/Pods/
+**/macos/Pods/
+**/ios/.symlinks/
+**/macos/.symlinks/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/macos/Flutter/GeneratedPluginRegistrant.*
+**/ios/Runner/Info.plist.bak
+**/ios/Runner.xcworkspace/xcuserdata/
+
+# Android native
+**/android/.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/android/key.properties
+**/*.keystore
+**/*.jks
+
+# Web
+lib/generated_plugin_registrant.dart
+
+# ─────────────────────────────────────────────
+# Visual Studio / Rider / VS Code
+# ─────────────────────────────────────────────
+.vs/
+.idea/
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+*.sublime-workspace
+*.sublime-project
+.vscode/settings.json
+.vscode/launch.json
+.vscode/*.code-workspace
+# Keep .vscode/extensions.json if present
+
+# ─────────────────────────────────────────────
+# Operating System
+# ─────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ─────────────────────────────────────────────
+# Database
+# ─────────────────────────────────────────────
+*.mdf
+*.ldf
+*.ndf
+
+# ─────────────────────────────────────────────
+# Hangfire / SQLite (dev-only job storage)
+# ─────────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+
+# ─────────────────────────────────────────────
+# Misc
+# ─────────────────────────────────────────────
+*.tmp
+*.temp
+coverage/
+lcov.info

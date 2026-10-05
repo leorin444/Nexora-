@@ -1,0 +1,43 @@
+# https://gitattributes.io
+# Auto detect text files and perform LF normalization
+* text=auto eol=lf
+
+# Force batch scripts to always use CRLF
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+
+# Force bash scripts to always use LF
+*.sh text eol=lf
+
+# Dart / Flutter
+*.dart text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# .NET
+*.cs text eol=lf
+*.csproj text eol=lf
+*.slnx text eol=lf
+*.sln text eol=lf
+*.razor text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.config text eol=lf
+
+# Documentation
+*.md text eol=lf
+
+# Binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.dll binary
+*.exe binary
+*.pdb binary
