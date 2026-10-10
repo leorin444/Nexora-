@@ -1,10 +1,15 @@
 using Nexora.Admin.Components;
+using Nexora.Admin.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+var backendUrl = builder.Configuration["BackendApi:BaseUrl"] ?? "http://localhost:5000";
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(backendUrl) });
+builder.Services.AddScoped<NexoraApiClient>();
 
 var app = builder.Build();
 
