@@ -59,6 +59,10 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
 
+        // ─── Platform Core Services ────────────────────────────────────────────
+        services.AddScoped<IFeatureFlagService, Nexora.Infrastructure.Services.FeatureFlagService>();
+        services.AddScoped<IAuditLogService, Nexora.Infrastructure.Services.AuditLogService>();
+
         // ─── Background Jobs (Hangfire) ────────────────────────────────────────
         services.AddHangfire(config => config
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)

@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Nexora.Domain.Audit;
+using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
 
 namespace Nexora.Application.Common.Interfaces;
@@ -10,6 +12,8 @@ namespace Nexora.Application.Common.Interfaces;
 public interface INexoraDbContext
 {
     DbSet<RefreshToken> RefreshTokens { get; }
+    DbSet<FeatureFlag> FeatureFlags { get; }
+    DbSet<AuditLog> AuditLogs { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
