@@ -173,13 +173,13 @@
 
 ## Phase 4 — Admin Foundation
 
-- [ ] Admin login (Blazor cookie auth)
-- [ ] Admin dashboard home
-- [ ] User list
-- [ ] Feature flag management UI
-- [ ] System settings
-- [ ] Audit log viewer
-- [ ] News sector/source management
+- [x] Blazor Server Admin application structure & navigation (`NavMenu`)
+- [x] Admin API integration service (`NexoraApiClient`)
+- [x] Admin dashboard home & health overview (`Home.razor`)
+- [x] Feature flag management UI with interactive toggles (`Features.razor`)
+- [x] User & Couple management view placeholder with privacy boundary notice (`Users.razor`)
+- [x] Audit log viewer component (`Audit.razor`)
+- [x] Workspace verification (0 build errors, 8/8 unit tests passing, 1/1 integration test passing)
 
 ---
 
