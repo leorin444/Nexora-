@@ -208,6 +208,87 @@ namespace Nexora.Infrastructure.Persistence.Migrations
                     b.ToTable("AuditLogs", (string)null);
                 });
 
+            modelBuilder.Entity("Nexora.Domain.Couples.Couple", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ConnectedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Partner1Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Partner2Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Partner1Id");
+
+                    b.HasIndex("Partner2Id");
+
+                    b.HasIndex("Partner1Id", "Status");
+
+                    b.HasIndex("Partner2Id", "Status");
+
+                    b.ToTable("Couples", (string)null);
+                });
+
+            modelBuilder.Entity("Nexora.Domain.Couples.CoupleInvitation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("AcceptedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("AcceptedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiresAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InvitationCode")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvitationCode")
+                        .IsUnique();
+
+                    b.HasIndex("SenderId");
+
+                    b.HasIndex("SenderId", "Status");
+
+                    b.ToTable("CoupleInvitations", (string)null);
+                });
+
             modelBuilder.Entity("Nexora.Domain.Features.FeatureFlag", b =>
                 {
                     b.Property<string>("Name")

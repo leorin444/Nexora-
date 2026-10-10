@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/notes_screen.dart';
+import 'screens/couple_screen.dart';
 
 void main() {
   runApp(
@@ -74,6 +75,20 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const NotesScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pink.shade50,
+                foregroundColor: Colors.pink,
+              ),
+              icon: const Icon(Icons.favorite),
+              label: const Text('Couple Space'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const CoupleScreen()),
                 );
               },
             ),

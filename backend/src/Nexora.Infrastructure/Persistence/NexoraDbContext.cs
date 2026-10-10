@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Nexora.Application.Common.Interfaces;
 using Nexora.Domain.Audit;
+using Nexora.Domain.Couples;
 using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
 using Nexora.Domain.Notes;
@@ -24,6 +25,8 @@ public sealed class NexoraDbContext
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<Note> Notes => Set<Note>();
     public DbSet<Reminder> Reminders => Set<Reminder>();
+    public DbSet<Couple> Couples => Set<Couple>();
+    public DbSet<CoupleInvitation> CoupleInvitations => Set<CoupleInvitation>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

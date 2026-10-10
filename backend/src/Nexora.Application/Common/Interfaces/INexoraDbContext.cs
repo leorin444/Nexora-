@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Nexora.Domain.Audit;
+using Nexora.Domain.Couples;
 using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
 using Nexora.Domain.Notes;
@@ -18,6 +19,8 @@ public interface INexoraDbContext
     DbSet<AuditLog> AuditLogs { get; }
     DbSet<Note> Notes { get; }
     DbSet<Reminder> Reminders { get; }
+    DbSet<Couple> Couples { get; }
+    DbSet<CoupleInvitation> CoupleInvitations { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
