@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
 import 'screens/login_screen.dart';
+import 'screens/notes_screen.dart';
 
 void main() {
   runApp(
@@ -66,6 +67,16 @@ class HomeScreen extends StatelessWidget {
             Text('Welcome, ${user.fullName}!', style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 8),
             Text('Email: ${user.email}'),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.note_alt_outlined),
+              label: const Text('My Notes'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const NotesScreen()),
+                );
+              },
+            ),
           ],
         ),
       ),

@@ -5,13 +5,13 @@ using Nexora.Application.Common.Interfaces;
 using Nexora.Domain.Audit;
 using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
+using Nexora.Domain.Notes;
+using Nexora.Domain.Reminders;
 
 namespace Nexora.Infrastructure.Persistence;
 
 /// <summary>
 /// The central EF Core DbContext for Nexora.
-/// Inherits IdentityDbContext so ASP.NET Core Identity tables are managed here.
-/// Implements INexoraDbContext so Application handlers can depend on the interface.
 /// </summary>
 public sealed class NexoraDbContext
     : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>,
@@ -22,15 +22,14 @@ public sealed class NexoraDbContext
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<FeatureFlag> FeatureFlags => Set<FeatureFlag>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<Note> Notes => Set<Note>();
+    public DbSet<Reminder> Reminders => Set<Reminder>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(builder); // Identity schema
-
-        // Apply all entity configurations from this assembly
+        base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(NexoraDbContext).Assembly);
 
-        // Rename Identity tables to cleaner names
         builder.Entity<ApplicationUser>().ToTable("Users");
         builder.Entity<IdentityRole<Guid>>().ToTable("Roles");
         builder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles");
@@ -41,7 +40,5 @@ public sealed class NexoraDbContext
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return await base.SaveChangesAsync(cancellationToken);
-    }
+        => await base.SaveChangesAsync(cancellationToken);
 }
