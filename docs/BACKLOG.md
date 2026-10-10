@@ -193,9 +193,22 @@
 - [x] Flutter mobile `NotesScreen`, `NoteEditorScreen`, `NotesService`, and `NoteModel`
 - [x] Flutter test passing (`1/1` test passing)
 
+## Phase 6 — Couple Domain (Invitation & Relationship System)
+
+- [x] Couple entity with status transitions (`Active`, `Paused`, `Ended`)
+- [x] CoupleInvitation entity with cryptographically secure 8-character codes and 48-hour expiration
+- [x] Rule enforcement: Strictly one active couple per user max
+- [x] Single-use invitation logic with self-pairing prevention and code invalidation
+- [x] CQRS commands & queries (`CreateInvitationCommand`, `AcceptInvitationCommand`, `GetCurrentCoupleQuery`)
+- [x] EF Core configurations & migration (`CoupleSystemInvitationsAndRelationships`)
+- [x] `CouplesController` endpoints (`GET /current`, `POST /invitations`, `POST /invitations/accept`)
+- [x] 5 new unit tests verifying invitation generation, expiration, pairing, and abuse protection (`18/18` backend tests passing)
+- [x] Flutter mobile `CoupleScreen`, `CouplesService`, and `CoupleModel`
+- [x] Flutter widget smoke tests passing (`1/1` test passing)
+
 ---
 
-## Phases 6–13
+## Phases 7–13
 
 See Master Development Specification for detailed requirements.  
 Backlog items will be expanded as each phase begins.
