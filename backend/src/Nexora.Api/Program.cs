@@ -138,7 +138,7 @@ try
 
     app.Run();
 }
-catch (Exception ex)
+catch (Exception ex) when (ex.GetType().Name != "HostAbortedException")
 {
     Log.Fatal(ex, "Nexora API terminated unexpectedly");
 }
@@ -146,5 +146,3 @@ finally
 {
     Log.CloseAndFlush();
 }
-
-public partial class Program { }
