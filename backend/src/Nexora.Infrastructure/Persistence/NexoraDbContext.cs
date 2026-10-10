@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Nexora.Application.Common.Interfaces;
+using Nexora.Domain.Audit;
+using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
 
 namespace Nexora.Infrastructure.Persistence;
@@ -18,6 +20,8 @@ public sealed class NexoraDbContext
     public NexoraDbContext(DbContextOptions<NexoraDbContext> options) : base(options) { }
 
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<FeatureFlag> FeatureFlags => Set<FeatureFlag>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -38,7 +42,6 @@ public sealed class NexoraDbContext
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        // Future: audit stamp UpdatedAtUtc on entities implementing IAuditableEntity
         return await base.SaveChangesAsync(cancellationToken);
     }
 }
