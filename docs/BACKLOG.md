@@ -152,10 +152,10 @@
 
 ### Flutter Mobile
 
-- [ ] Auth state management
-- [ ] Login screen
-- [ ] Registration screen
-- [ ] Token storage (secure storage)
+- [x] Auth state management (`AuthProvider`)
+- [x] Login screen (`LoginScreen`)
+- [x] Registration screen (`RegisterScreen`)
+- [x] Token storage (`TokenStorage` using `flutter_secure_storage`)
 
 ---
 
