@@ -161,13 +161,13 @@
 
 ## Phase 3 — Platform Core
 
-- [ ] Feature flag registry
-- [ ] Feature flag evaluation service
-- [ ] Personal Mode concept
-- [ ] Couple Mode concept
-- [ ] Visibility enum (`Private`, `PartnerVisible`, `Shared`)
-- [ ] Authorization policies for visibility
-- [ ] Shared resource foundation
+- [x] Feature flag registry (`FeatureKeys`)
+- [x] Feature flag evaluation service (`IFeatureFlagService` / `FeatureFlagService`)
+- [x] Visibility enum (`VisibilityLevel`: `Private`, `Shared`, `PartnerVisible`)
+- [x] Audit logging service & EF entity (`IAuditLogService` / `AuditLogService` / `AuditLog`)
+- [x] Dynamic feature flag endpoint (`GET /api/features`)
+- [x] Admin feature flag toggle endpoint (`PUT /api/admin/features/{name}`)
+- [x] Unit tests for FeatureFlagService (`8/8` total backend unit tests passing)
 
 ---
 
