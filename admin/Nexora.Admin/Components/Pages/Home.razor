@@ -1,7 +1,39 @@
-﻿@page "/"
+@page "/"
+@inject Nexora.Admin.Services.NexoraApiClient ApiClient
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Nexora Admin - Dashboard</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container-fluid">
+    <h1 class="mb-4">Nexora Administration</h1>
 
-Welcome to your new app.
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card border-primary h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">System Health</h5>
+                    <p class="card-text">Backend API Status: <span class="badge bg-success">Operational</span></p>
+                    <p class="card-text">Database Connection: <span class="badge bg-success">Connected</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-info h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-info">Platform Features</h5>
+                    <p class="card-text">Total Features Managed: <strong>8</strong></p>
+                    <a href="features" class="btn btn-outline-info btn-sm">Manage Flags</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-secondary h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-secondary">Security Policy</h5>
+                    <p class="card-text"><small class="text-muted">Private user content (Notes, Chat, Journals) is strictly isolated and hidden from administration.</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

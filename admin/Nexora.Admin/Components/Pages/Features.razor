@@ -1,0 +1,102 @@
+@page "/features"
+@inject Nexora.Admin.Services.NexoraApiClient ApiClient
+
+<PageTitle>Feature Flag Management</PageTitle>
+
+<div class="container-fluid">
+    <h1 class="mb-4">Feature Flag Management</h1>
+    <p class="text-muted">Centrally enable or disable platform capabilities for personal and couple modes in real-time.</p>
+
+    @if (isLoading)
+    {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else if (errorMessage != null)
+    {
+        <div class="alert alert-warning">
+            @errorMessage
+        </div>
+    }
+    else if (features != null)
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Feature Key</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var feature in features)
+                    {
+                        <tr>
+                            <td><strong>@feature.Key</strong></td>
+                            <td>
+                                @if (feature.Value)
+                                {
+                                    <span class="badge bg-success">Enabled</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Disabled</span>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-sm @(feature.Value ? "btn-outline-danger" : "btn-outline-success")"
+                                        @onclick="() => ToggleFeature(feature.Key, !feature.Value)">
+                                    @(feature.Value ? "Disable" : "Enable")
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private IDictionary<string, bool>? features;
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFeatures();
+    }
+
+    private async Task LoadFeatures()
+    {
+        isLoading = true;
+        try
+        {
+            features = await ApiClient.GetFeatureFlagsAsync();
+            errorMessage = null;
+        }
+        catch (Exception)
+        {
+            errorMessage = "Unable to connect to backend API to retrieve feature flags.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task ToggleFeature(string name, bool newState)
+    {
+        var success = await ApiClient.UpdateFeatureFlagAsync(name, newState);
+        if (success)
+        {
+            if (features != null) features[name] = newState;
+        }
+        else
+        {
+            await LoadFeatures();
+        }
+    }
+}
