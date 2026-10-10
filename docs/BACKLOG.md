@@ -181,9 +181,21 @@
 - [x] Audit log viewer component (`Audit.razor`)
 - [x] Workspace verification (0 build errors, 8/8 unit tests passing, 1/1 integration test passing)
 
+## Phase 5 — Personal Domain Core (Notes & Reminders)
+
+- [x] Note entity with `VisibilityLevel` support (`Private`, `Shared`, `PartnerVisible`)
+- [x] Reminder entity with `RecurrenceType` support (`None`, `Daily`, `Weekly`, `Monthly`, `Yearly`)
+- [x] CQRS Notes handlers with server-side `OwnerId` enforcement (never trusting client IDs)
+- [x] CQRS Reminders handlers with completion toggling and ownership checks
+- [x] EF Core configurations & migration (`PersonalDomainNotesAndReminders`)
+- [x] `NotesController` & `RemindersController` REST endpoints
+- [x] Unit test suite verifying cross-user access denial and tamper resistance (`13/13` backend tests passing)
+- [x] Flutter mobile `NotesScreen`, `NoteEditorScreen`, `NotesService`, and `NoteModel`
+- [x] Flutter test passing (`1/1` test passing)
+
 ---
 
-## Phases 5–13
+## Phases 6–13
 
 See Master Development Specification for detailed requirements.  
 Backlog items will be expanded as each phase begins.
