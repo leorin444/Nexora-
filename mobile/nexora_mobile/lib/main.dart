@@ -9,6 +9,7 @@ import 'screens/chat_screen.dart';
 import 'screens/vault_screen.dart';
 import 'screens/ai_screen.dart';
 import 'screens/news_screen.dart';
+import 'screens/search_screen.dart';
 
 void main() {
   runApp(
@@ -160,6 +161,20 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const NewsScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.indigo.shade50,
+                foregroundColor: Colors.indigo.shade900,
+              ),
+              icon: const Icon(Icons.search),
+              label: const Text('Global Search & Intelligence'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const SearchScreen()),
                 );
               },
             ),
