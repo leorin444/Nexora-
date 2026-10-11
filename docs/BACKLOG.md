@@ -206,9 +206,21 @@
 - [x] Flutter mobile `CoupleScreen`, `CouplesService`, and `CoupleModel`
 - [x] Flutter widget smoke tests passing (`1/1` test passing)
 
+## Phase 7 — Shared Calendar & Realtime Foundation
+
+- [x] CalendarEvent entity supporting couple-scope and `VisibilityLevel` (`Private`, `Shared`, `PartnerVisible`)
+- [x] SignalR hub (`NexoraHub`) mapped to `/hubs/nexora` with authenticated user and couple group messaging
+- [x] `IRealtimeNotificationService` abstraction implemented via `SignalRNotificationService`
+- [x] `CreateCalendarEventCommand` CQRS handler with couple membership validation and realtime push notifications
+- [x] `GetCalendarEventsQuery` CQRS handler with date-range filter and partner visibility boundary enforcement
+- [x] EF Core `CalendarEventConfiguration` and migration (`SharedCalendarAndRealtime`)
+- [x] `CalendarController` REST endpoints (`GET /api/calendar`, `POST /api/calendar`)
+- [x] 3 new unit tests for event creation, realtime broadcast, and partner visibility boundaries (`21/21` backend tests passing)
+- [x] Flutter mobile `CalendarScreen`, `CalendarService`, and `CalendarEventModel` with event creation modal
+
 ---
 
-## Phases 7–13
+## Phases 8–13
 
 See Master Development Specification for detailed requirements.  
 Backlog items will be expanded as each phase begins.
