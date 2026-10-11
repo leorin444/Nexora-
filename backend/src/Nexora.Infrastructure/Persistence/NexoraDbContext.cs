@@ -10,6 +10,7 @@ using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
 using Nexora.Domain.Notes;
 using Nexora.Domain.Reminders;
+using Nexora.Domain.Vault;
 
 namespace Nexora.Infrastructure.Persistence;
 
@@ -31,6 +32,7 @@ public sealed class NexoraDbContext
     public DbSet<CoupleInvitation> CoupleInvitations => Set<CoupleInvitation>();
     public DbSet<CalendarEvent> CalendarEvents => Set<CalendarEvent>();
     public DbSet<ChatMessage> ChatMessages => Set<ChatMessage>();
+    public DbSet<VaultItem> VaultItems => Set<VaultItem>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
