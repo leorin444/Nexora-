@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Nexora.Domain.Audit;
+using Nexora.Domain.Calendar;
 using Nexora.Domain.Couples;
 using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
@@ -21,6 +22,7 @@ public interface INexoraDbContext
     DbSet<Reminder> Reminders { get; }
     DbSet<Couple> Couples { get; }
     DbSet<CoupleInvitation> CoupleInvitations { get; }
+    DbSet<CalendarEvent> CalendarEvents { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
