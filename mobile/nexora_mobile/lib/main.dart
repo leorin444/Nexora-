@@ -7,6 +7,7 @@ import 'screens/couple_screen.dart';
 import 'screens/calendar_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/vault_screen.dart';
+import 'screens/ai_screen.dart';
 
 void main() {
   runApp(
@@ -130,6 +131,20 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const VaultScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal.shade50,
+                foregroundColor: Colors.teal.shade900,
+              ),
+              icon: const Icon(Icons.auto_awesome),
+              label: const Text('AI Assistant & Coach'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const AIScreen()),
                 );
               },
             ),

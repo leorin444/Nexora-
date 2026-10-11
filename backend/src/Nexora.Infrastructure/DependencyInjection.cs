@@ -101,7 +101,19 @@ public static class DependencyInjection
         string providerName,
         IConfiguration configuration)
     {
-        services.AddSingleton<IAIProvider, NullAIProvider>();
+        services.AddHttpClient("AIProvider");
+
+        switch (providerName.ToLowerInvariant())
+        {
+            case "openai":
+                services.AddSingleton<IAIProvider, OpenAIProvider>();
+                break;
+
+            default:
+                services.AddSingleton<IAIProvider, NullAIProvider>();
+                break;
+        }
+
         return services;
     }
 }
