@@ -7,6 +7,7 @@ using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
 using Nexora.Domain.Notes;
 using Nexora.Domain.Reminders;
+using Nexora.Domain.Vault;
 
 namespace Nexora.Application.Common.Interfaces;
 
@@ -25,6 +26,7 @@ public interface INexoraDbContext
     DbSet<CoupleInvitation> CoupleInvitations { get; }
     DbSet<CalendarEvent> CalendarEvents { get; }
     DbSet<ChatMessage> ChatMessages { get; }
+    DbSet<VaultItem> VaultItems { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

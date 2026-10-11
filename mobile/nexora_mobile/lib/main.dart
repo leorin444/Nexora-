@@ -6,6 +6,7 @@ import 'screens/notes_screen.dart';
 import 'screens/couple_screen.dart';
 import 'screens/calendar_screen.dart';
 import 'screens/chat_screen.dart';
+import 'screens/vault_screen.dart';
 
 void main() {
   runApp(
@@ -115,6 +116,20 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const ChatScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.amber.shade50,
+                foregroundColor: Colors.amber.shade900,
+              ),
+              icon: const Icon(Icons.shield_outlined),
+              label: const Text('Knowledge Vault'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const VaultScreen()),
                 );
               },
             ),
