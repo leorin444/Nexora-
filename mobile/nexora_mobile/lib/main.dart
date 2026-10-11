@@ -5,6 +5,7 @@ import 'screens/login_screen.dart';
 import 'screens/notes_screen.dart';
 import 'screens/couple_screen.dart';
 import 'screens/calendar_screen.dart';
+import 'screens/chat_screen.dart';
 
 void main() {
   runApp(
@@ -100,6 +101,20 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const CalendarScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple.shade50,
+                foregroundColor: Colors.purple,
+              ),
+              icon: const Icon(Icons.chat_bubble_outline),
+              label: const Text('Couple Chat'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const ChatScreen()),
                 );
               },
             ),
