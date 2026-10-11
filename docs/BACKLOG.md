@@ -229,9 +229,20 @@
 - [x] Flutter mobile `ChatScreen`, `ChatService`, and `ChatMessageModel` with message thread view and text input
 - [x] Home screen navigation button for "Couple Chat"
 
+## Phase 9 — Knowledge Vault (Documents & Secrets)
+
+- [x] VaultItem entity with `VaultItemType` (`Document`, `Secret`, `Card`, `Custom`) and `VisibilityLevel` privacy boundary
+- [x] `CreateVaultItemCommand` CQRS handler with couple association for shared/partner-visible items
+- [x] `GetVaultItemsQuery` CQRS handler with full-text search across title, description, and tags while strictly isolating partner private secrets
+- [x] EF Core `VaultItemConfiguration` and migration (`KnowledgeVaultDocumentsAndSecrets`)
+- [x] `VaultController` REST endpoints (`GET /api/vault?search=`, `POST /api/vault`)
+- [x] 3 new unit tests for item creation, shared couple linking, and private secret isolation (`27/27` backend tests passing)
+- [x] Flutter mobile `VaultScreen`, `VaultService`, and `VaultItemModel` with search bar and secure entry dialog
+- [x] Home screen navigation button for "Knowledge Vault"
+
 ---
 
-## Phases 9–13
+## Phases 10–13
 
 See Master Development Specification for detailed requirements.  
 Backlog items will be expanded as each phase begins.
