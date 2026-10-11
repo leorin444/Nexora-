@@ -63,6 +63,10 @@ public static class DependencyInjection
         services.AddScoped<IFeatureFlagService, Nexora.Infrastructure.Services.FeatureFlagService>();
         services.AddScoped<IAuditLogService, Nexora.Infrastructure.Services.AuditLogService>();
 
+        // ─── Realtime Services (SignalR) ───────────────────────────────────────
+        services.AddSignalR();
+        services.AddScoped<IRealtimeNotificationService, Nexora.Infrastructure.Realtime.SignalRNotificationService>();
+
         // ─── Background Jobs (Hangfire) ────────────────────────────────────────
         services.AddHangfire(config => config
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)

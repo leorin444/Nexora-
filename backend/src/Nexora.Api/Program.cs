@@ -130,6 +130,7 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
+    app.MapHub<Nexora.Infrastructure.Realtime.NexoraHub>("/hubs/nexora");
     app.MapHealthChecks("/health");
     app.MapHangfireDashboard("/hangfire", new DashboardOptions
     {
