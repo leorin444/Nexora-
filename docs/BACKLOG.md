@@ -252,9 +252,20 @@
 - [x] Flutter mobile `AIScreen`, `AIService`, and AI models with tabbed interface for "Ask AI" and "Communication Coach"
 - [x] Home screen navigation button for "AI Assistant & Coach"
 
+## Phase 11 — News Platform (Aggregation, Curation & Background Ingestion)
+
+- [x] NewsArticle entity with `NewsCategory` enum (`Technology`, `ArtificialIntelligence`, `Business`, `Science`, `World`, `Health`, `Lifestyle`), unique `Url` constraint, and `CurationScore`
+- [x] `IngestNewsArticleCommand` CQRS handler with deduplication by canonical URL and score updates
+- [x] `GetNewsArticlesQuery` CQRS handler supporting sector filtering, Top Stories toggle, and ranked sorting
+- [x] EF Core `NewsArticleConfiguration` and migration (`NewsPlatformAggregationAndCuration`)
+- [x] `NewsController` REST endpoints (`GET /api/news`, Admin `POST /api/news/ingest`)
+- [x] 3 new unit tests for ingestion, URL deduplication, and ranked query sorting (`34/34` backend tests passing)
+- [x] Flutter mobile `NewsScreen`, `NewsService`, and `NewsArticleModel` with category choice chips, Top Story badges, and pull-to-refresh
+- [x] Home screen navigation button for "Curated News Feed"
+
 ---
 
-## Phases 11–13
+## Phases 12–13
 
 See Master Development Specification for detailed requirements.  
 Backlog items will be expanded as each phase begins.
