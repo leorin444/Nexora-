@@ -218,9 +218,20 @@
 - [x] 3 new unit tests for event creation, realtime broadcast, and partner visibility boundaries (`21/21` backend tests passing)
 - [x] Flutter mobile `CalendarScreen`, `CalendarService`, and `CalendarEventModel` with event creation modal
 
+## Phase 8 — Couple Realtime Chat & Media Foundation
+
+- [x] ChatMessage entity with `MessageDeliveryStatus` (`Sent`, `Delivered`, `Read`) and attachment support
+- [x] `SendMessageCommand` CQRS handler validating active couple membership and broadcasting `ChatMessageReceived` via SignalR
+- [x] `GetChatMessagesQuery` CQRS handler retrieving messages within couple space in chronological order with pagination
+- [x] EF Core `ChatMessageConfiguration` and migration (`CoupleRealtimeChat`)
+- [x] `ChatController` REST endpoints (`GET /api/chat`, `POST /api/chat`)
+- [x] 3 new unit tests for permissions, realtime broadcast, and chronological pagination (`24/24` backend tests passing)
+- [x] Flutter mobile `ChatScreen`, `ChatService`, and `ChatMessageModel` with message thread view and text input
+- [x] Home screen navigation button for "Couple Chat"
+
 ---
 
-## Phases 8–13
+## Phases 9–13
 
 See Master Development Specification for detailed requirements.  
 Backlog items will be expanded as each phase begins.
