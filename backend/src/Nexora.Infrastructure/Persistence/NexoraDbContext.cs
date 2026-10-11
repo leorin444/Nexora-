@@ -8,6 +8,7 @@ using Nexora.Domain.Chat;
 using Nexora.Domain.Couples;
 using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
+using Nexora.Domain.News;
 using Nexora.Domain.Notes;
 using Nexora.Domain.Reminders;
 using Nexora.Domain.Vault;
@@ -33,6 +34,7 @@ public sealed class NexoraDbContext
     public DbSet<CalendarEvent> CalendarEvents => Set<CalendarEvent>();
     public DbSet<ChatMessage> ChatMessages => Set<ChatMessage>();
     public DbSet<VaultItem> VaultItems => Set<VaultItem>();
+    public DbSet<NewsArticle> NewsArticles => Set<NewsArticle>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

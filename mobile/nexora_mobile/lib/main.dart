@@ -8,6 +8,7 @@ import 'screens/calendar_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/vault_screen.dart';
 import 'screens/ai_screen.dart';
+import 'screens/news_screen.dart';
 
 void main() {
   runApp(
@@ -145,6 +146,20 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const AIScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue.shade50,
+                foregroundColor: Colors.blue.shade900,
+              ),
+              icon: const Icon(Icons.newspaper),
+              label: const Text('Curated News Feed'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const NewsScreen()),
                 );
               },
             ),

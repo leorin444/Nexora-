@@ -5,6 +5,7 @@ using Nexora.Domain.Chat;
 using Nexora.Domain.Couples;
 using Nexora.Domain.Features;
 using Nexora.Domain.Identity;
+using Nexora.Domain.News;
 using Nexora.Domain.Notes;
 using Nexora.Domain.Reminders;
 using Nexora.Domain.Vault;
@@ -27,6 +28,7 @@ public interface INexoraDbContext
     DbSet<CalendarEvent> CalendarEvents { get; }
     DbSet<ChatMessage> ChatMessages { get; }
     DbSet<VaultItem> VaultItems { get; }
+    DbSet<NewsArticle> NewsArticles { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
