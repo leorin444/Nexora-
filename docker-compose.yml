@@ -1,0 +1,40 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: nexora-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD:-NexoraStrongPass2026!}
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - nexora-sql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nexora-api
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=NexoraDb;User Id=sa;Password=${MSSQL_SA_PASSWORD:-NexoraStrongPass2026!};TrustServerCertificate=True;MultipleActiveResultSets=True;
+      - Jwt__SecretKey=${JWT_SECRET_KEY:-ProdSecretKeyNeedToChangeThis32CharsMinimum!}
+      - Jwt__Issuer=https://api.nexora.app
+      - Jwt__Audience=https://nexora.app
+      - AI__Provider=None
+    ports:
+      - "5000:8080"
+    restart: unless-stopped
+
+volumes:
+  nexora-sql-data:
