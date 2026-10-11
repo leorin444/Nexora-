@@ -265,10 +265,22 @@
 
 ---
 
-## Phases 12–13
+## Phase 12 — Search & Intelligence
+
+- [x] Unified search DTOs (`SearchResultDto` and `UnifiedSearchResponse`) spanning 5 core domains
+- [x] `UnifiedSearchQuery` CQRS handler aggregating across Notes, Reminders, Calendar Events, Knowledge Vault, and News Articles
+- [x] Strict partner privacy boundary enforcement (private partner notes/events/secrets excluded automatically)
+- [x] `SearchController` REST endpoint (`GET /api/search?q=&limit=`)
+- [x] 3 new unit tests for multi-domain aggregation, partner privacy isolation, and blank query handling (`37/37` backend tests passing)
+- [x] Flutter mobile `SearchScreen`, `SearchService`, and `SearchResultModel` with category-specific avatars, badges, and snippets
+- [x] Home screen navigation button for "Global Search & Intelligence"
+
+---
+
+## Phase 13 — Production Hardening & Deployment
 
 See Master Development Specification for detailed requirements.  
-Backlog items will be expanded as each phase begins.
+Backlog items will be expanded as Phase 13 begins.
 
 ---
 
