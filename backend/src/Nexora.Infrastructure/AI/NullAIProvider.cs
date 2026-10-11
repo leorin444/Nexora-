@@ -1,37 +1,40 @@
-using Nexora.Application.AI;
 using Microsoft.Extensions.Logging;
+using Nexora.Application.AI;
 
 namespace Nexora.Infrastructure.AI;
 
 /// <summary>
-/// Null (no-op) AI provider used when no AI provider is configured or available.
-/// Ensures the application continues to function gracefully without AI.
+/// Null-pattern AI provider that returns a graceful fallback when
+/// no real AI service is configured or reachable.
+/// Guarantees the system is fully usable without AI.
 /// </summary>
-internal sealed class NullAIProvider(ILogger<NullAIProvider> logger) : IAIProvider
+public sealed class NullAIProvider(ILogger<NullAIProvider> logger) : IAIProvider
 {
     public bool IsAvailable => false;
 
+    public string ProviderName => "Null (AI Disabled)";
+
     public Task<string> CompleteAsync(string prompt, CancellationToken cancellationToken = default)
     {
-        logger.LogDebug("NullAIProvider: CompleteAsync called — AI not configured.");
-        return Task.FromResult(string.Empty);
+        logger.LogDebug("NullAIProvider invoked CompleteAsync — returning fallback.");
+        return Task.FromResult("AI features are currently unavailable. Your request has been noted and the system continues to operate normally.");
     }
 
     public Task<string> SummarizeAsync(string content, CancellationToken cancellationToken = default)
     {
-        logger.LogDebug("NullAIProvider: SummarizeAsync called — AI not configured.");
+        logger.LogDebug("NullAIProvider invoked SummarizeAsync — returning empty.");
         return Task.FromResult(string.Empty);
     }
 
     public Task<IReadOnlyList<string>> TagAsync(string content, CancellationToken cancellationToken = default)
     {
-        logger.LogDebug("NullAIProvider: TagAsync called — AI not configured.");
+        logger.LogDebug("NullAIProvider invoked TagAsync — returning empty list.");
         return Task.FromResult<IReadOnlyList<string>>([]);
     }
 
     public Task<string> ImproveCommunicationAsync(string text, string context, CancellationToken cancellationToken = default)
     {
-        logger.LogDebug("NullAIProvider: ImproveCommunicationAsync called — AI not configured.");
-        return Task.FromResult(string.Empty);
+        logger.LogDebug("NullAIProvider invoked ImproveCommunicationAsync — returning fallback.");
+        return Task.FromResult("AI communication coaching is currently unavailable. Your original message remains unchanged.");
     }
 }

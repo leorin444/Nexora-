@@ -10,9 +10,12 @@ public interface IAIProvider
     /// <summary>Whether this AI provider is currently available and configured.</summary>
     bool IsAvailable { get; }
 
+    /// <summary>Human-readable provider name for diagnostics.</summary>
+    string ProviderName { get; }
+
     /// <summary>
     /// Generate a completion for a given prompt.
-    /// Returns an empty string if the provider is unavailable rather than throwing.
+    /// Returns a fallback string if the provider is unavailable rather than throwing.
     /// </summary>
     Task<string> CompleteAsync(string prompt, CancellationToken cancellationToken = default);
 
@@ -30,7 +33,7 @@ public interface IAIProvider
 
     /// <summary>
     /// Assist with communication — suggest improvements or alternative phrasings.
-    /// Returns an empty string if the provider is unavailable.
+    /// Returns a fallback string if the provider is unavailable.
     /// </summary>
     Task<string> ImproveCommunicationAsync(string text, string context, CancellationToken cancellationToken = default);
 }
