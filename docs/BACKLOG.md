@@ -240,9 +240,21 @@
 - [x] Flutter mobile `VaultScreen`, `VaultService`, and `VaultItemModel` with search bar and secure entry dialog
 - [x] Home screen navigation button for "Knowledge Vault"
 
+## Phase 10 — AI Platform & Communication Coach
+
+- [x] Provider-independent AI abstraction via `IAIProvider` (`CompleteAsync`, `SummarizeAsync`, `TagAsync`, `ImproveCommunicationAsync`)
+- [x] Interchangeable providers: `OpenAIProvider` (with configurable endpoint/model for cloud or Ollama) and `NullAIProvider` (graceful fallback)
+- [x] Dynamic dependency injection resolution in `DependencyInjection.cs` via `AI:Provider` config
+- [x] `AskAIQuery` CQRS handler for personal AI assistant interaction
+- [x] `CommunicationCoachQuery` CQRS handler for empathetic message enhancement and tone feedback
+- [x] `AIController` REST endpoints (`GET /api/ai/status`, `POST /api/ai/ask`, `POST /api/ai/coach`)
+- [x] 4 new unit tests for fallback behavior, query execution, and validation (`31/31` backend tests passing)
+- [x] Flutter mobile `AIScreen`, `AIService`, and AI models with tabbed interface for "Ask AI" and "Communication Coach"
+- [x] Home screen navigation button for "AI Assistant & Coach"
+
 ---
 
-## Phases 10–13
+## Phases 11–13
 
 See Master Development Specification for detailed requirements.  
 Backlog items will be expanded as each phase begins.
