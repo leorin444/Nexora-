@@ -1,29 +1,44 @@
 @page "/users"
+@attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>User & Couple Management</PageTitle>
 
 <div class="container-fluid">
-    <h1 class="mb-4">User & Couple Management</h1>
-    <p class="text-muted">Overview of platform users and active couple relationships.</p>
-
-    <div class="alert alert-info">
-        <strong>Privacy Notice:</strong> Administrators can view account status and couple linkages, but cannot view private user content (notes, chat history, journals).
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1">User & Couple Management</h1>
+            <p class="text-muted mb-0">Overview of platform users and active couple relationships.</p>
+        </div>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Email</th>
-                <th>Name</th>
-                <th>Status</th>
-                <th>Couple Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="5" class="text-center text-muted">No users registered yet or backend disconnected.</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="alert alert-info d-flex align-items-center mb-4">
+        <span class="bi bi-info-circle-fill me-2 fs-5"></span>
+        <div>
+            <strong>Privacy Notice:</strong> Administrators can view account status and couple linkages, but cannot view private user content (notes, chat history, journals).
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>User ID</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Couple Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            <span class="bi bi-people me-1"></span>
+                            No users registered yet or backend disconnected.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

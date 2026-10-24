@@ -1,36 +1,54 @@
 @page "/"
+@attribute [Authorize(Roles = "Admin")]
 @inject Nexora.Admin.Services.NexoraApiClient ApiClient
 
 <PageTitle>Nexora Admin - Dashboard</PageTitle>
 
 <div class="container-fluid">
-    <h1 class="mb-4">Nexora Administration</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1">Nexora Administration</h1>
+            <p class="text-muted mb-0">Platform overview and system operations control</p>
+        </div>
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
+            <span class="bi bi-shield-check me-1"></span>Admin Session Active
+        </span>
+    </div>
 
     <div class="row g-4 mb-4">
         <div class="col-md-4">
-            <div class="card border-primary h-100">
+            <div class="card border-primary h-100 shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title text-primary">System Health</h5>
-                    <p class="card-text">Backend API Status: <span class="badge bg-success">Operational</span></p>
-                    <p class="card-text">Database Connection: <span class="badge bg-success">Connected</span></p>
+                    <h5 class="card-title text-primary d-flex align-items-center gap-2">
+                        <span class="bi bi-activity"></span>
+                        <span>System Health</span>
+                    </h5>
+                    <p class="card-text mb-2">Backend API Status: <span class="badge bg-success">Operational</span></p>
+                    <p class="card-text mb-0">Database Connection: <span class="badge bg-success">Connected</span></p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card border-info h-100">
+            <div class="card border-info h-100 shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title text-info">Platform Features</h5>
-                    <p class="card-text">Total Features Managed: <strong>8</strong></p>
+                    <h5 class="card-title text-info d-flex align-items-center gap-2">
+                        <span class="bi bi-toggles"></span>
+                        <span>Platform Features</span>
+                    </h5>
+                    <p class="card-text mb-3">Total Features Managed: <strong>8</strong></p>
                     <a href="features" class="btn btn-outline-info btn-sm">Manage Flags</a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card border-secondary h-100">
+            <div class="card border-secondary h-100 shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title text-secondary">Security Policy</h5>
+                    <h5 class="card-title text-secondary d-flex align-items-center gap-2">
+                        <span class="bi bi-lock-fill"></span>
+                        <span>Security & Privacy</span>
+                    </h5>
                     <p class="card-text"><small class="text-muted">Private user content (Notes, Chat, Journals) is strictly isolated and hidden from administration.</small></p>
                 </div>
             </div>

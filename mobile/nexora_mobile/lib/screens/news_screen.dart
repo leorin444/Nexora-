@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/news_article_model.dart';
 import '../services/news_service.dart';
+import '../theme/nexora_theme.dart';
+import '../widgets/bento_card.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
@@ -19,13 +22,13 @@ class _NewsScreenState extends State<NewsScreen> {
   bool _topStoriesOnly = false;
 
   final Map<int, String> _categories = {
-    0: 'Tech',
     1: 'AI',
-    2: 'Business',
+    0: 'Tech',
     3: 'Science',
+    6: 'Lifestyle',
+    2: 'Business',
     4: 'World',
     5: 'Health',
-    6: 'Lifestyle',
   };
 
   @override
@@ -45,144 +48,238 @@ class _NewsScreenState extends State<NewsScreen> {
         category: _selectedCategory,
         topStoriesOnly: _topStoriesOnly,
       );
-      setState(() {
-        _articles = list;
-      });
+      if (mounted) {
+        setState(() {
+          _articles = list;
+        });
+      }
     } catch (e) {
-      setState(() {
-        _error = e.toString().replaceAll('Exception: ', '');
-      });
+      if (mounted) {
+        setState(() {
+          _error = e.toString().replaceAll('Exception: ', '');
+        });
+      }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final tokens = NexoraTheme.of(context);
+
     return Scaffold(
+      backgroundColor: tokens.canvas,
       appBar: AppBar(
         title: const Text('Curated News Feed'),
         actions: [
           IconButton(
-            icon: Icon(_topStoriesOnly ? Icons.star : Icons.star_border),
-            color: _topStoriesOnly ? Colors.amber : null,
-            tooltip: 'Top Stories Only',
-            onPressed: () {
-              setState(() {
-                _topStoriesOnly = !_topStoriesOnly;
-              });
-              _loadArticles();
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh_rounded),
             onPressed: _loadArticles,
           ),
         ],
       ),
       body: Column(
         children: [
-          // Category pills
+          // Filter Row: Amber Star Filter ('★ Top Stories') + Category pills
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
+                // Amber Star Filter
+                FilterChip(
+                  avatar: Icon(
+                    Icons.star_rounded,
+                    size: 18,
+                    color: _topStoriesOnly ? const Color(0xFFF39C12) : tokens.textSecondary,
+                  ),
+                  label: const Text('★ Top Stories'),
+                  selected: _topStoriesOnly,
+                  onSelected: (selected) {
+                    HapticFeedback.selectionClick();
+                    setState(() => _topStoriesOnly = selected);
+                    _loadArticles();
+                  },
+                  selectedColor: const Color(0xFFF39C12).withOpacity(0.15),
+                  labelStyle: TextStyle(
+                    fontSize: 12,
+                    fontWeight: _topStoriesOnly ? FontWeight.w700 : FontWeight.w500,
+                    color: _topStoriesOnly ? const Color(0xFFF39C12) : tokens.textSecondary,
+                  ),
+                  side: BorderSide(
+                    color: _topStoriesOnly ? const Color(0xFFF39C12) : tokens.strokeSubtle,
+                  ),
+                  backgroundColor: tokens.cardSurface,
+                ),
+                const SizedBox(width: 8),
                 ChoiceChip(
                   label: const Text('All'),
                   selected: _selectedCategory == null,
                   onSelected: (selected) {
                     if (selected) {
+                      HapticFeedback.selectionClick();
                       setState(() => _selectedCategory = null);
                       _loadArticles();
                     }
                   },
+                  selectedColor: tokens.intelligence.withOpacity(0.15),
+                  labelStyle: TextStyle(
+                    fontSize: 12,
+                    fontWeight: _selectedCategory == null ? FontWeight.w700 : FontWeight.w500,
+                    color: _selectedCategory == null ? tokens.intelligence : tokens.textSecondary,
+                  ),
+                  side: BorderSide(
+                    color: _selectedCategory == null ? tokens.intelligence : tokens.strokeSubtle,
+                  ),
+                  backgroundColor: tokens.cardSurface,
                 ),
-                const SizedBox(width: 6),
+                const SizedBox(width: 8),
                 ..._categories.entries.map((entry) {
+                  final isSelected = _selectedCategory == entry.key;
                   return Padding(
-                    padding: const EdgeInsets.only(right: 6),
+                    padding: const EdgeInsets.only(right: 8),
                     child: ChoiceChip(
                       label: Text(entry.value),
-                      selected: _selectedCategory == entry.key,
+                      selected: isSelected,
                       onSelected: (selected) {
+                        HapticFeedback.selectionClick();
                         setState(() => _selectedCategory = selected ? entry.key : null);
                         _loadArticles();
                       },
+                      selectedColor: tokens.intelligence.withOpacity(0.15),
+                      labelStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                        color: isSelected ? tokens.intelligence : tokens.textSecondary,
+                      ),
+                      side: BorderSide(
+                        color: isSelected ? tokens.intelligence : tokens.strokeSubtle,
+                      ),
+                      backgroundColor: tokens.cardSurface,
                     ),
                   );
                 }),
               ],
             ),
           ),
+
+          // Article Cards Feed
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _error != null
-                    ? Center(child: Text('Error: $_error', style: const TextStyle(color: Colors.red)))
+                    ? Center(child: Text('Error: $_error', style: TextStyle(color: tokens.vaultAccent)))
                     : _articles.isEmpty
-                        ? const Center(
-                            child: Text(
-                              'No news articles found for this category.\nCheck back after the next ingestion cycle! 📰',
-                              textAlign: TextAlign.center,
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.newspaper_rounded,
+                                    size: 48, color: tokens.textSecondary.withOpacity(0.4)),
+                                const SizedBox(height: 12),
+                                Text(
+                                  'No articles found for this filter.\nCheck back after the next ingestion cycle!',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: tokens.textSecondary),
+                                ),
+                              ],
                             ),
                           )
                         : RefreshIndicator(
                             onRefresh: _loadArticles,
+                            color: tokens.intelligence,
                             child: ListView.builder(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               itemCount: _articles.length,
                               itemBuilder: (context, index) {
                                 final article = _articles[index];
 
-                                return Card(
-                                  margin: const EdgeInsets.symmetric(vertical: 6),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12),
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                  child: BentoCard(
+                                    padding: const EdgeInsets.all(16),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
-                                            Text(
-                                              article.sourceName,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.blue.shade700,
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8, vertical: 3),
+                                              decoration: BoxDecoration(
+                                                color: tokens.intelligence.withOpacity(0.12),
+                                                borderRadius: BorderRadius.circular(6),
+                                              ),
+                                              child: Text(
+                                                article.sourceName.toUpperCase(),
+                                                style: TextStyle(
+                                                  fontFamily: NexoraTheme.monoFont,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: tokens.intelligence,
+                                                ),
                                               ),
                                             ),
                                             const Spacer(),
                                             if (article.isTopStory)
-                                              const Chip(
-                                                label: Text('⭐ Top Story', style: TextStyle(fontSize: 10)),
-                                                visualDensity: VisualDensity.compact,
-                                                backgroundColor: Color(0xFFFFF9C4),
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 8, vertical: 3),
+                                                decoration: BoxDecoration(
+                                                  color: const Color(0xFFF39C12).withOpacity(0.12),
+                                                  borderRadius: BorderRadius.circular(6),
+                                                ),
+                                                child: const Text(
+                                                  '⭐ Top Story',
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Color(0xFFF39C12),
+                                                  ),
+                                                ),
                                               ),
                                           ],
                                         ),
-                                        const SizedBox(height: 6),
+                                        const SizedBox(height: 10),
                                         Text(
                                           article.title,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 16,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w700,
+                                            color: tokens.textPrimary,
+                                            height: 1.3,
                                           ),
                                         ),
-                                        const SizedBox(height: 4),
+                                        const SizedBox(height: 6),
                                         Text(
                                           article.summary,
                                           style: TextStyle(
                                             fontSize: 13,
-                                            color: Colors.grey.shade700,
+                                            color: tokens.textSecondary,
+                                            height: 1.4,
                                           ),
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          article.publishedAtUtc.toLocal().toString().substring(0, 16),
-                                          style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
+                                        const SizedBox(height: 12),
+                                        Row(
+                                          children: [
+                                            Icon(Icons.schedule_rounded,
+                                                size: 14, color: tokens.textSecondary.withOpacity(0.7)),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              article.publishedAtUtc.toLocal().toString().substring(0, 16),
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: tokens.textSecondary.withOpacity(0.7),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

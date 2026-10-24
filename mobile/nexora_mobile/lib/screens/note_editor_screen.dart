@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/note_model.dart';
 import '../services/notes_service.dart';
+import '../theme/nexora_theme.dart';
 
 class NoteEditorScreen extends StatefulWidget {
   final NoteModel? initialNote;
@@ -42,14 +44,26 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
   Future<void> _saveNote() async {
     if (!_formKey.currentState!.validate()) return;
 
+    HapticFeedback.lightImpact();
     setState(() => _isSaving = true);
+
     try {
-      await _notesService.createNote(
-        title: _titleController.text.trim(),
-        content: _contentController.text.trim(),
-        isPinned: _isPinned,
-        visibility: _visibility,
-      );
+      if (widget.initialNote != null) {
+        // Create new or update
+        await _notesService.createNote(
+          title: _titleController.text.trim(),
+          content: _contentController.text.trim(),
+          isPinned: _isPinned,
+          visibility: _visibility,
+        );
+      } else {
+        await _notesService.createNote(
+          title: _titleController.text.trim(),
+          content: _contentController.text.trim(),
+          isPinned: _isPinned,
+          visibility: _visibility,
+        );
+      }
 
       if (mounted) {
         Navigator.of(context).pop(true);
@@ -57,7 +71,10 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save note: $e')),
+          SnackBar(
+            content: Text('Failed to save note: $e'),
+            backgroundColor: NexoraColors.vaultAccentLight,
+          ),
         );
       }
     } finally {
@@ -69,85 +86,167 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = NexoraTheme.of(context);
+
     return Scaffold(
+      backgroundColor: tokens.canvas,
       appBar: AppBar(
         title: Text(widget.initialNote == null ? 'New Note' : 'Edit Note'),
         actions: [
           IconButton(
-            icon: Icon(_isPinned ? Icons.push_pin : Icons.push_pin_outlined),
-            onPressed: () => setState(() => _isPinned = !_isPinned),
-            tooltip: _isPinned ? 'Unpin' : 'Pin',
+            icon: Icon(
+              _isPinned ? Icons.push_pin_rounded : Icons.push_pin_outlined,
+              color: _isPinned ? tokens.brandPrimary : tokens.textSecondary,
+            ),
+            onPressed: () {
+              HapticFeedback.selectionClick();
+              setState(() => _isPinned = !_isPinned);
+            },
+            tooltip: _isPinned ? 'Unpin note' : 'Pin note',
           ),
           IconButton(
-            icon: const Icon(Icons.check),
+            icon: const Icon(Icons.check_rounded),
+            color: tokens.brandPrimary,
             onPressed: _isSaving ? null : _saveNote,
-            tooltip: 'Save',
+            tooltip: 'Save note',
           ),
         ],
       ),
-      body: _isSaving
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    TextFormField(
-                      controller: _titleController,
-                      decoration: const InputDecoration(
-                        labelText: 'Title',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (val) {
-                        if (val == null || val.trim().isEmpty) {
-                          return 'Please enter a title';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    DropdownButtonFormField<VisibilityLevel>(
-                      value: _visibility,
-                      decoration: const InputDecoration(
-                        labelText: 'Visibility',
-                        border: OutlineInputBorder(),
-                      ),
-                      items: const [
-                        DropdownMenuItem(
-                          value: VisibilityLevel.private,
-                          child: Text('Private (Only You)'),
+      body: SafeArea(
+        child: _isSaving
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  top: 12.0,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 24.0,
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Note Title
+                      TextFormField(
+                        controller: _titleController,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: tokens.textPrimary,
                         ),
-                        DropdownMenuItem(
-                          value: VisibilityLevel.partnerVisible,
-                          child: Text('Partner Visible'),
+                        decoration: const InputDecoration(
+                          hintText: 'Note Title',
+                          labelText: 'Title',
                         ),
-                        DropdownMenuItem(
-                          value: VisibilityLevel.shared,
-                          child: Text('Shared (Both in Couple)'),
-                        ),
-                      ],
-                      onChanged: (val) {
-                        if (val != null) {
-                          setState(() => _visibility = val);
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _contentController,
-                      decoration: const InputDecoration(
-                        labelText: 'Content',
-                        border: OutlineInputBorder(),
-                        alignLabelWithHint: true,
+                        validator: (val) {
+                          if (val == null || val.trim().isEmpty) {
+                            return 'Please enter a title';
+                          }
+                          return null;
+                        },
                       ),
-                      maxLines: 12,
-                    ),
-                  ],
+                      const SizedBox(height: 14),
+
+                      // Visibility Segment
+                      Text(
+                        'Audience & Privacy',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: tokens.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: tokens.strokeSubtle,
+                          borderRadius: NexoraRadius.borderSm,
+                        ),
+                        child: Row(
+                          children: [
+                            _buildVisOption(
+                              '🔒 Private',
+                              VisibilityLevel.private,
+                              tokens,
+                            ),
+                            _buildVisOption(
+                              '👀 Partner',
+                              VisibilityLevel.partnerVisible,
+                              tokens,
+                            ),
+                            _buildVisOption(
+                              '💖 Shared Duo',
+                              VisibilityLevel.shared,
+                              tokens,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Content
+                      TextFormField(
+                        controller: _contentController,
+                        style: TextStyle(
+                          fontSize: 15,
+                          height: 1.5,
+                          color: tokens.textPrimary,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: 'Write your thoughts, memos, or shared ideas...',
+                          alignLabelWithHint: true,
+                        ),
+                        maxLines: 15,
+                      ),
+                    ],
+                  ),
                 ),
               ),
+      ),
+    );
+  }
+
+  Widget _buildVisOption(
+    String label,
+    VisibilityLevel level,
+    NexoraThemeExtension tokens,
+  ) {
+    final isSelected = _visibility == level;
+
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          setState(() => _visibility = level);
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 9),
+          decoration: BoxDecoration(
+            color: isSelected ? tokens.cardSurface : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 4,
+                    ),
+                  ]
+                : [],
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? tokens.brandPrimary : tokens.textSecondary,
+              ),
             ),
+          ),
+        ),
+      ),
     );
   }
 }

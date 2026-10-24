@@ -1,10 +1,11 @@
+﻿import '../config/api_config.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/calendar_event_model.dart';
 import 'token_storage.dart';
 
 class CalendarService {
-  static const String _baseUrl = 'http://10.0.2.2:5000/api';
+  static const String _baseUrl = ApiConfig.baseUrl;
   final TokenStorage _tokenStorage = TokenStorage();
 
   Future<Map<String, String>> _authHeaders() async {

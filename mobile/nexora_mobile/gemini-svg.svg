@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Canvas Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#161822" />
+      <stop offset="100%" stop-color="#0D0E15" />
+    </linearGradient>
+
+    <!-- Nexora Brand Purple Ribbon -->
+    <linearGradient id="brandPurple" x1="0%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#5541D7" />
+      <stop offset="100%" stop-color="#8274ED" />
+    </linearGradient>
+
+    <!-- Nexora Couple Warm Pink Ribbon -->
+    <linearGradient id="couplePink" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8FB8" />
+      <stop offset="60%" stop-color="#FD79A8" />
+      <stop offset="100%" stop-color="#E17055" />
+    </linearGradient>
+
+    <!-- Luminous AI Accent Glow -->
+    <radialGradient id="ambientGlow" cx="50%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#FD79A8" stop-opacity="0.28" />
+      <stop offset="50%" stop-color="#6C5CE7" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#0D0E15" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Soft Drop Shadow Filter for Layer Elevation -->
+    <filter id="shadowElevation" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000000" flood-opacity="0.45" />
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#6C5CE7" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- 1. App Icon Squircle Canvas -->
+  <rect width="512" height="512" rx="116" fill="url(#bgGrad)" />
+  <rect width="512" height="512" rx="116" fill="none" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="2" />
+
+  <!-- 2. Ambient Backlight Illumination -->
+  <circle cx="256" cy="246" r="190" fill="url(#ambientGlow)" />
+
+  <!-- 3. The Hero 'N' Monogram Mark -->
+  <g filter="url(#shadowElevation)" transform="translate(16, 8)">
+
+    <!-- Left Structural Stem (Self / Productivity) -->
+    <path d="M 124 372
+             L 124 186
+             C 124 152 148 128 178 128
+             C 208 128 232 152 232 186
+             L 232 320
+             C 232 354 256 376 286 376
+             C 304 376 320 366 332 352
+             L 332 292
+             C 318 308 296 312 282 306
+             C 264 298 256 278 256 254
+             L 256 186
+             C 256 126 218 88 168 88
+             C 112 88 84 130 84 186
+             L 84 372
+             Z"
+          fill="url(#brandPurple)" />
+
+    <!-- Overlapping Duo Ribbon (Couple Interlock & Shared Path) -->
+    <path d="M 224 240
+             C 238 214 262 188 294 168
+             L 348 134
+             C 374 118 396 132 396 160
+             L 396 348
+             C 396 382 372 404 342 404
+             C 310 404 290 380 290 348
+             L 290 226
+             L 242 258
+             C 236 262 230 264 224 264
+             Z"
+          fill="url(#couplePink)"
+          opacity="0.94" />
+
+    <!-- Dynamic AI Sparkle Crest at the Upper Right Apex -->
+    <path d="M 396 112
+             C 396 92 406 82 426 82
+             C 406 82 396 72 396 52
+             C 396 72 386 82 366 82
+             C 386 82 396 92 396 112 Z"
+          fill="#FF8FB8" />
+
+    <!-- Center Security Node (Hardware Shield Accent) -->
+    <circle cx="258" cy="254" r="7" fill="#FFFFFF" opacity="0.92" />
+  </g>
+</svg>

@@ -1,60 +1,74 @@
 @page "/features"
+@attribute [Authorize(Roles = "Admin")]
 @inject Nexora.Admin.Services.NexoraApiClient ApiClient
 
 <PageTitle>Feature Flag Management</PageTitle>
 
 <div class="container-fluid">
-    <h1 class="mb-4">Feature Flag Management</h1>
-    <p class="text-muted">Centrally enable or disable platform capabilities for personal and couple modes in real-time.</p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1">Feature Flag Management</h1>
+            <p class="text-muted mb-0">Centrally enable or disable platform capabilities for personal and couple modes in real-time.</p>
+        </div>
+        <button class="btn btn-outline-secondary btn-sm" @onclick="LoadFeatures" disabled="@isLoading">
+            <span class="bi bi-arrow-clockwise me-1"></span>Refresh
+        </button>
+    </div>
 
     @if (isLoading)
     {
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div class="d-flex align-items-center gap-2 text-primary p-3">
+            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <span>Loading feature toggles...</span>
         </div>
     }
     else if (errorMessage != null)
     {
-        <div class="alert alert-warning">
-            @errorMessage
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+            <span class="bi bi-exclamation-triangle-fill me-2"></span>
+            <div>@errorMessage</div>
         </div>
     }
     else if (features != null)
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>Feature Key</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var feature in features)
-                    {
+        <div class="card shadow-sm border-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
                         <tr>
-                            <td><strong>@feature.Key</strong></td>
-                            <td>
-                                @if (feature.Value)
-                                {
-                                    <span class="badge bg-success">Enabled</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-danger">Disabled</span>
-                                }
-                            </td>
-                            <td>
-                                <button class="btn btn-sm @(feature.Value ? "btn-outline-danger" : "btn-outline-success")"
-                                        @onclick="() => ToggleFeature(feature.Key, !feature.Value)">
-                                    @(feature.Value ? "Disable" : "Enable")
-                                </button>
-                            </td>
+                            <th>Feature Key</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var feature in features)
+                        {
+                            <tr>
+                                <td><strong>@feature.Key</strong></td>
+                                <td>
+                                    @if (feature.Value)
+                                    {
+                                        <span class="badge bg-success">Enabled</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Disabled</span>
+                                    }
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm @(feature.Value ? "btn-outline-danger" : "btn-outline-success")"
+                                            @onclick="() => ToggleFeature(feature.Key, !feature.Value)">
+                                        @(feature.Value ? "Disable" : "Enable")
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     }
 </div>

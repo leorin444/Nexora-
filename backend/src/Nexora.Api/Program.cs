@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using Nexora.Api.Middleware;
 using Nexora.Application;
 using Nexora.Domain.Identity;
@@ -95,7 +96,27 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1", new Microsoft.OpenApi.OpenApiInfo { Title = "Nexora API", Version = "v1" });
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Nexora API", Version = "v1" });
+
+        var securityScheme = new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            Description = "Enter JWT Bearer token",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT"
+        };
+
+        c.AddSecurityDefinition("Bearer", securityScheme);
+
+        c.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecuritySchemeReference("Bearer", document),
+                new List<string>()
+            }
+        });
     });
 
     // ─── SignalR ──────────────────────────────────────────────────────────────
@@ -118,12 +139,13 @@ try
     app.UseMiddleware<GlobalExceptionMiddleware>();
     app.UseSerilogRequestLogging();
 
-    if (app.Environment.IsDevelopment())
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
-    else
+        c.SwaggerEndpoint("./v1/swagger.json", "Nexora API v1");
+    });
+
+    if (!app.Environment.IsDevelopment())
     {
         app.UseHsts();
     }

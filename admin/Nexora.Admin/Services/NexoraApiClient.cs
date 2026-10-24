@@ -8,23 +8,38 @@ public sealed class NexoraApiClient(HttpClient httpClient)
 {
     private string? _accessToken;
 
+    public string? AccessToken => _accessToken;
+
     public void SetAccessToken(string token)
     {
         _accessToken = token;
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
 
+    public void ClearAccessToken()
+    {
+        _accessToken = null;
+        httpClient.DefaultRequestHeaders.Authorization = null;
+    }
+
     public async Task<AuthResponse?> LoginAsync(string email, string password)
     {
-        var response = await httpClient.PostAsJsonAsync("/api/auth/login", new { email, password });
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var auth = await response.Content.ReadFromJsonAsync<AuthResponse>();
-            if (auth != null)
+            var response = await httpClient.PostAsJsonAsync("/api/auth/login", new { email, password });
+            if (response.IsSuccessStatusCode)
             {
-                SetAccessToken(auth.AccessToken);
+                var auth = await response.Content.ReadFromJsonAsync<AuthResponse>();
+                if (auth != null)
+                {
+                    SetAccessToken(auth.AccessToken);
+                }
+                return auth;
             }
-            return auth;
+        }
+        catch (Exception)
+        {
+            // Network or connection exception handled upstream
         }
         return null;
     }
@@ -38,5 +53,18 @@ public sealed class NexoraApiClient(HttpClient httpClient)
     {
         var response = await httpClient.PutAsJsonAsync($"/api/admin/features/{name}", new { isEnabled });
         return response.IsSuccessStatusCode;
+    }
+
+    public async Task<bool> CheckHealthAsync()
+    {
+        try
+        {
+            var response = await httpClient.GetAsync("/api/system/status");
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

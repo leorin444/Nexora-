@@ -1,25 +1,37 @@
 @page "/audit"
+@attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>Audit Log Viewer</PageTitle>
 
 <div class="container-fluid">
-    <h1 class="mb-4">Audit Logs</h1>
-    <p class="text-muted">Security and system activity history.</p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1">Audit Logs</h1>
+            <p class="text-muted mb-0">Security and system activity history recorded for compliance and governance.</p>
+        </div>
+    </div>
 
-    <table class="table table-bordered">
-        <thead class="table-light">
-            <tr>
-                <th>Timestamp (UTC)</th>
-                <th>User / Identity</th>
-                <th>Domain</th>
-                <th>Action</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="5" class="text-center text-muted">No audit logs recorded yet.</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Timestamp (UTC)</th>
+                        <th>User / Identity</th>
+                        <th>Domain</th>
+                        <th>Action</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            <span class="bi bi-clock-history me-1"></span>
+                            No audit logs recorded yet.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

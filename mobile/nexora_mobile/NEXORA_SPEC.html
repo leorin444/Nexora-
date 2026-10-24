@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Nexora Mobile - UI/UX Design Specification</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 16mm 14mm;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #1e202b;
+    line-height: 1.55;
+    font-size: 12.5px;
+    background: #fff;
+    padding: 0;
+    margin: 0;
+  }
+  .doc-title {
+    color: #4a3cb5;
+    font-size: 24px;
+    border-bottom: 3px solid #6c5ce7;
+    padding-bottom: 8px;
+    margin-top: 0;
+  }
+  h2 {
+    color: #4a3cb5;
+    font-size: 16px;
+    border-bottom: 1.5px solid #e0e2ed;
+    padding-bottom: 4px;
+    margin-top: 22px;
+    page-break-after: avoid;
+  }
+  h3 {
+    color: #2d3436;
+    font-size: 14px;
+    margin-top: 16px;
+    page-break-after: avoid;
+  }
+  h4 {
+    color: #555;
+    font-size: 12.5px;
+    margin-top: 10px;
+    page-break-after: avoid;
+  }
+  p, li {
+    color: #2d3436;
+  }
+  li {
+    margin-bottom: 3px;
+  }
+  .table-container {
+    margin: 12px 0;
+    page-break-inside: avoid;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+  }
+  th {
+    background: #6c5ce7;
+    color: #fff;
+    font-weight: 600;
+    padding: 7px 9px;
+    text-align: left;
+    border: 1px solid #5a4ac7;
+  }
+  td {
+    padding: 6px 9px;
+    border: 1px solid #dfe6e9;
+  }
+  tr:nth-child(even) {
+    background: #f8f9fe;
+  }
+  code {
+    background: #f1f2f6;
+    color: #d63031;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 11px;
+  }
+  pre {
+    background: #1e202b;
+    color: #f5f6fa;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 10.5px;
+    page-break-inside: avoid;
+  }
+  pre code {
+    background: none;
+    color: #f5f6fa;
+    padding: 0;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #dfe6e9;
+    margin: 18px 0;
+  }
+  strong {
+    color: #1e202b;
+  }
+  .num-item {
+    margin: 5px 0;
+  }
+</style>
+</head>
+<body>
+<h1 class="doc-title">📱 Nexora Mobile — UI/UX Product Design Specification & Handover Document</h1>
+<p><strong>Document Version:</strong> 2.0 (Production-Ready Architecture)</p>
+<p><strong>Project Location:</strong> <code>A:\Projects\Nexora\mobile\nexora_mobile</code></p>
+<p><strong>Target Platforms:</strong> iOS & Android (Mobile First, Material 3 + iOS Human Interface Guidelines)</p>
+<p><strong>Target Audience:</strong> Individuals and couples seeking a private, secure, all-in-one personal operating system with AI intelligence, shared planning, encrypted knowledge storage, and news curation.</p>
+<p><strong>Deliverables Required From Designer:</strong> Figma Component Library, Auto-layout Design Kits, Dark & Light Mode Prototypes, Interactive User Journeys.</p>
+<hr/>
+<h2>1. Product Vision & Design Identity</h2>
+<h3>1.1 Core Value Proposition</h3>
+<p><strong>Nexora</strong> is an intelligent personal operating system and private couple space. It eliminates app fragmentation by integrating:</p>
+<div class="num-item"><strong>1.</strong> <strong>Personal Productivity:</strong> Dynamic note-taking with pinning, tags, and multi-line editor.</div>
+<div class="num-item"><strong>2.</strong> <strong>Private Couple Space:</strong> Dual-user pairing via cryptographic 8-character invite codes, shared notes, and memory milestones.</div>
+<div class="num-item"><strong>3.</strong> <strong>Dual-Layer Calendar:</strong> Private individual events alongside synced couple events.</div>
+<div class="num-item"><strong>4.</strong> <strong>Private Couple Chat:</strong> Direct, encrypted communication channel between partners.</div>
+<div class="num-item"><strong>5.</strong> <strong>Knowledge Vault:</strong> Biometric-ready encrypted storage for PINs, credentials, identity cards, and sensitive documents.</div>
+<div class="num-item"><strong>6.</strong> <strong>AI Assistant & Relationship Coach:</strong> Context-aware LLM assistance plus relationship and communication coaching.</div>
+<div class="num-item"><strong>7.</strong> <strong>Curated Intelligence Feed:</strong> Tagged news covering AI, Tech, Science, Business, and Lifestyle with Top Stories filtering.</div>
+<div class="num-item"><strong>8.</strong> <strong>Universal Search Index:</strong> Single search query retrieving relevant notes, events, vault items, and news simultaneously.</div>
+<h3>1.2 Visual Tone & Aesthetic</h3>
+<li><strong>Look & Feel:</strong> High-end, futuristic yet warm. A blend of <strong>Notion</strong> (clean layout and typography) + <strong>Arc Browser</strong> (playful modern gradients) + <strong>Between / Paired</strong> (intimate, warm couple aesthetics).</li>
+<li><strong>Keywords:</strong> Sleek, Private, Intelligent, Fluid, Reassuring.</li>
+<hr/>
+<h2>2. Global Design System Foundations</h2>
+<h3>2.1 Color Palette & Semantic Tokens</h3>
+<div class="table-container"><table>
+<thead><tr><th>Token Name</th><th>Light Mode Value</th><th>Dark Mode Value</th><th>Semantic Role</th></tr></thead><tbody>
+<tr><td><code>Brand Primary (Deep Purple)</code></td><td><code>#6C5CE7</code></td><td><code>#8274ED</code></td><td>App brand identity, AI actions, primary CTA</td></tr>
+<tr><td><code>Couple Accent (Warm Pink)</code></td><td><code>#FD79A8</code></td><td><code>#FF8FB8</code></td><td>Couple Space, shared events, anniversary badges</td></tr>
+<tr><td><code>Vault Accent (Amber Gold)</code></td><td><code>#E17055</code></td><td><code>#F39C12</code></td><td>Security badge, credentials, locked records</td></tr>
+<tr><td><code>Intelligence (Electric Blue)</code></td><td><code>#0984E3</code></td><td><code>#48DBFB</code></td><td>News, external links, global search highlights</td></tr>
+<tr><td><code>Success (Emerald Green)</code></td><td><code>#00B894</code></td><td><code>#55EFC4</code></td><td>Completed tasks, connected partner status</td></tr>
+<tr><td><code>Surface Canvas</code></td><td><code>#F8F9FE</code></td><td><code>#0D0E15</code></td><td>App screen background</td></tr>
+<tr><td><code>Card / Container Surface</code></td><td><code>#FFFFFF</code></td><td><code>#161822</code></td><td>Elevated modules, bento boxes, modals</td></tr>
+<tr><td><code>Stroke / Divider</code></td><td><code>#ECEFF8</code></td><td><code>#222538</code></td><td>Card borders, table dividers</td></tr>
+<tr><td><code>Text Primary</code></td><td><code>#1E202B</code></td><td><code>#F5F6FA</code></td><td>Primary headlines, bold figures</td></tr>
+<tr><td><code>Text Secondary</code></td><td><code>#718096</code></td><td><code>#A0AEC0</code></td><td>Subtitles, timestamps, metadata</td></tr>
+</tbody></table></div>
+<h3>2.2 Typography Hierarchy</h3>
+<li><strong>App Headlines (Screen Titles):</strong> <em>Plus Jakarta Sans</em> / <em>Inter</em>, Bold, <code>24px - 30px</code>.</li>
+<li><strong>Section Headers (Bento Card Titles):</strong> Semi-Bold, <code>16px - 18px</code>.</li>
+<li><strong>Body Text (Notes, Chat, Vault payloads):</strong> Regular / Medium, <code>14px - 15px</code>.</li>
+<li><strong>Monospace / Secure Data (Invite codes, PINs):</strong> <em>JetBrains Mono</em>, Bold, <code>18px - 24px</code> with <code>3px</code> letter-spacing.</li>
+<li><strong>Badges & Chips:</strong> Semi-Bold, <code>11px - 12px</code>, uppercase or title case.</li>
+<h3>2.3 Component Standards</h3>
+<li><strong>Border Radius:</strong></li>
+<li>Small (Buttons, Input fields, Chips): <code>12px</code>.</li>
+<li>Medium (List items, Chat bubbles): <code>16px</code>.</li>
+<li>Large (Bento cards, Bottom sheets): <code>24px</code>.</li>
+<li><strong>Touch Targets:</strong> Minimum <code>48dp × 48dp</code> for all buttons and interactive icons.</li>
+<li><strong>Feedback Modals:</strong> Bottom sheets with grab handles for quick creation; centered blur-backed dialogs for security authorizations.</li>
+<hr/>
+<h2>3. Production Information Architecture (IA)</h2>
+<pre><code>graph TD
+Splash["Launch &amp; Auth Check"] --&gt; Login["Screen 1: Login / Register"]
+Login --&gt; MainShell["Production Hub: Home Dashboard (Bento Grid)"]
+
+MainShell --&gt; SecNotes["Screen 2: Notes Hub &amp; Markdown Editor"]
+MainShell --&gt; SecCouple["Screen 3: Couple Space (Pairing / Connected)"]
+MainShell --&gt; SecCal["Screen 4: Dual Calendar (Private &amp; Shared)"]
+MainShell --&gt; SecChat["Screen 5: Couple Real-time Chat"]
+MainShell --&gt; SecVault["Screen 6: Knowledge Vault (Encrypted Storage)"]
+MainShell --&gt; SecAI["Screen 7: AI Assistant &amp; Communication Coach"]
+MainShell --&gt; SecNews["Screen 8: Curated Intelligence Feed"]
+MainShell --&gt; SecSearch["Screen 9: Global Universal Search"]
+
+SecNotes --&gt; NoteEditor["Screen 2B: Full-Screen Note Editor"]
+SecVault --&gt; VaultNew["Modal: New Secret / Document"]
+SecCal --&gt; CalNew["Modal: New Event (Private vs Shared)"]</code></pre>
+<hr/>
+<h2>4. Screen-by-Screen Detailed UI/UX Specifications</h2>
+<hr/>
+<h3>SCREEN 1: Authentication & Onboarding</h3>
+<p><strong>Files:</strong> <code>lib/screens/login_screen.dart</code>, <code>lib/screens/register_screen.dart</code></p>
+<h4>1. Purpose</h4>
+<p>Secure identity gateway. Authenticates the user and initiates secure token storage (<code>token_storage.dart</code>).</p>
+<h4>2. Layout & Elements</h4>
+<li><strong>Brand Hero Banner:</strong></li>
+<li>Radiant Nexora logo (Deep Purple with subtle pink glow).</li>
+<li>Headline: <em>"Welcome to Nexora"</em>.</li>
+<li>Tagline: <em>"Your private intelligence operating system"</em>.</li>
+<li><strong>Form Inputs:</strong></li>
+<li><strong>Full Name</strong> (Register screen only): Text field with person icon.</li>
+<li><strong>Email:</strong> Email input field with validation.</li>
+<li><strong>Password:</strong> Password field with trailing Show/Hide eye icon.</li>
+<li><strong>Interactive Controls:</strong></li>
+<li><strong>Primary CTA:</strong> Full-width pill button: <code>"Sign In"</code> / <code>"Create Account"</code>.</li>
+<li><strong>State Toggle Button:</strong> <code>"Don't have an account? Sign Up"</code> / <code>"Already registered? Sign In"</code>.</li>
+<li><strong>States & Edge Cases:</strong></li>
+<li><em>Loading:</em> Primary button transitions to centered circular spinner.</li>
+<li><em>Error Feedback:</em> Floating SnackBar with server message (e.g., <em>"Invalid email or password"</em>).</li>
+<hr/>
+<h3>SCREEN 2: Home Dashboard (The Executive Bento Hub)</h3>
+<p><strong>File:</strong> <code>lib/main.dart</code> (<code>HomeScreen</code>)</p>
+<h4>1. Purpose</h4>
+<p>The launchpad of the application. Upgrades standard raw vertical buttons to a modern <strong>FinTech/Productivity Bento Grid</strong> that provides glanceable widgets for all 8 modules.</p>
+<h4>2. Top App Bar</h4>
+<li><strong>Left:</strong> User Greeting (<code>"Good morning, {FullName}"</code>) + Avatar with online status indicator.</li>
+<li><strong>Right Actions:</strong></li>
+<li><strong>Search Icon:</strong> Opens Global Search directly.</li>
+<li><strong>Profile / Logout Icon:</strong> Triggers session logout with confirmation prompt.</li>
+<h4>3. Bento Grid Modules (Interactive Cards)</h4>
+<div class="num-item"><strong>1.</strong> <strong>Couple Space Hero Widget (Top Prominence - Pink Gradient Card):</strong></div>
+<li><em>If Unpaired:</em> Heart icon + <em>"Connect with your partner"</em> + <em>"Generate Code"</em> CTA.</li>
+<li><em>If Paired:</em> Partner's photo/name + <em>"Connected since Oct 2026"</em> + Unread chat pill.</li>
+<div class="num-item"><strong>2.</strong> <strong>Notes Widget (Twin Column Left - Purple Border):</strong></div>
+<li>Icon: Note pad + Count badge (<code>X Notes</code>).</li>
+<li>Quick preview of the most recently pinned note title.</li>
+<li><code>+ Quick Note</code> shortcut tap target.</li>
+<div class="num-item"><strong>3.</strong> <strong>Shared Calendar Widget (Twin Column Right - Teal Border):</strong></div>
+<li>Next upcoming event title + Time pill + Shared/Private badge.</li>
+<div class="num-item"><strong>4.</strong> <strong>AI Assistant & Coach Card (Wide Horizontal Card):</strong></div>
+<li>Sparkle AI icon + <em>"Ask Nexora AI anything or get communication advice"</em>.</li>
+<li>Input chip preview: <em>"Try: Help me draft a message..."</em>.</li>
+<div class="num-item"><strong>5.</strong> <strong>Knowledge Vault Pill Card (Amber Accent):</strong></div>
+<li>Shield lock icon + <em>"Knowledge Vault"</em> + Total items count + Subtitle: <em>"Encrypted & Protected"</em>.</li>
+<div class="num-item"><strong>6.</strong> <strong>Curated News Mini-Feed:</strong></div>
+<li>Headline ticker showing latest top story from AI/Tech feed.</li>
+<hr/>
+<h3>SCREEN 3: Personal Notes & Markdown Editor</h3>
+<p><strong>Files:</strong> <code>lib/screens/notes_screen.dart</code>, <code>lib/screens/note_editor_screen.dart</code></p>
+<h4>1. Purpose</h4>
+<p>Organized personal knowledge capture supporting pinned notes, multi-line content, and quick editing.</p>
+<h4>2. Screen 3A: Notes List (<code>notes_screen.dart</code>)</h4>
+<li><strong>Header:</strong> Title <code>"My Notes"</code> + Search icon + Refresh button.</li>
+<li><strong>Floating Action Button:</strong> Circular <code>+</code> button in deep purple.</li>
+<li><strong>List / Grid Structure:</strong></li>
+<li>Card elements:</li>
+<li><strong>Pin Badge:</strong> Push-pin icon in top-right (purple if pinned, transparent if unpinned).</li>
+<li><strong>Title:</strong> Bold (<code>16px</code>).</li>
+<li><strong>Snippet:</strong> 2-line preview with ellipsis.</li>
+<li><strong>Timestamp:</strong> Formatted local time.</li>
+<li><strong>Actions:</strong></li>
+<li><strong>Tap:</strong> Opens full-screen Note Editor.</li>
+<li><strong>Pin Toggle:</strong> Pin/Unpin icon button.</li>
+<li><strong>Delete Action:</strong> Trash icon with confirmation dialog.</li>
+<li><strong>Edge States:</strong></li>
+<li><em>Empty State:</em> Friendly illustration + <em>"No notes yet. Tap + to capture your thoughts."</em></li>
+<li><em>Error State:</em> Error text + <code>"Retry"</code> button.</li>
+<h4>3. Screen 3B: Note Editor Screen (<code>note_editor_screen.dart</code>)</h4>
+<li><strong>Top Navigation:</strong></li>
+<li>Back icon (auto-prompts save on exit if modified).</li>
+<li>Right: Pin/Unpin toggle icon.</li>
+<li>Right: <code>"Save"</code> text button or checkmark icon.</li>
+<li><strong>Form Inputs:</strong></li>
+<li>Title field: Borderless, large bold font (<code>22px</code>), placeholder <code>"Note Title"</code>.</li>
+<li>Content field: Borderless, multi-line expanding canvas, placeholder <code>"Start typing..."</code>.</li>
+<hr/>
+<h3>SCREEN 4: Couple Space (Partner Pairing & Relationship Hub)</h3>
+<p><strong>File:</strong> <code>lib/screens/couple_screen.dart</code></p>
+<h4>1. Purpose</h4>
+<p>A private shared environment between two users. Supports cryptographic invite pairing, shared status, and milestone tracking.</p>
+<h4>2. State A: Unpaired / Pairing Flow</h4>
+<div class="num-item"><strong>1.</strong> <strong>Illustration & Explainer:</strong></div>
+<li>Linked rings / double heart illustration.</li>
+<li>Title: <em>"Connect with Your Partner"</em>.</li>
+<li>Subtitle: <em>"Pair with exactly one partner to unlock Couple Mode, shared calendar, shared notes, and memory vault."</em></li>
+<div class="num-item"><strong>2.</strong> <strong>Step 1 Card: "Invite Your Partner":</strong></div>
+<li>Button: <code>"Generate Invitation Code"</code> (with loading spinner).</li>
+<li><strong>Generated Code Container:</strong></li>
+<li>Prominent high-contrast container with <code>24px</code> bold monospace letters (e.g., <code>AB12CD34</code>).</li>
+<li>Single-tap <strong>"Copy to Clipboard"</strong> icon.</li>
+<li>Footnote: <em>"Valid for 48 hours. Single use only."</em></li>
+<div class="num-item"><strong>3.</strong> <strong>Step 2 Card: "Enter Partner's Code":</strong></div>
+<li>Uppercase text field with hint <code>"e.g. XY98ZW12"</code>.</li>
+<li>Primary Button: <code>"Connect Couple"</code> (Warm Pink background, <code>#FD79A8</code>).</li>
+<h4>3. State B: Connected Couple View</h4>
+<li><strong>Celebration Banner:</strong></li>
+<li>Heart avatar combining user & partner profile initials.</li>
+<li>Title: <em>"Connected Couple"</em>.</li>
+<li>Partner Name: <code>"{Partner Full Name}"</code>.</li>
+<li>Milestone: <code>"Connected since: {Date}"</code> + Days together counter badge.</li>
+<li>Active Status Chip: <code>"Couple Mode Active"</code> (Pink gradient with heart).</li>
+<li><strong>Shared Actions Grid:</strong></li>
+<li>Shortcut buttons to: <code>"Couple Chat"</code>, <code>"Shared Calendar"</code>, <code>"Shared Vault Items"</code>.</li>
+<hr/>
+<h3>SCREEN 5: Dual Calendar (Private & Shared Schedules)</h3>
+<p><strong>File:</strong> <code>lib/screens/calendar_screen.dart</code></p>
+<h4>1. Purpose</h4>
+<p>Unified time management allowing users to track private obligations alongside shared couple events without leaking private schedule details.</p>
+<h4>2. Layout & Elements</h4>
+<li><strong>AppBar:</strong> Title <code>"Calendar"</code> + Month/Week view switcher + Refresh icon.</li>
+<li><strong>Floating Action Button:</strong> <code>+</code> Event icon.</li>
+<li><strong>Event Card Elements:</strong></li>
+<li><strong>Time Block:</strong> Start time to End time (<code>09:00 AM - 10:30 AM</code>).</li>
+<li><strong>Event Title:</strong> Bold headline.</li>
+<li><strong>Location Badge:</strong> Map pin icon + location name (if provided).</li>
+<li><strong>Visibility Indicator:</strong></li>
+<li><em>Private Event:</em> Grey lock icon + <code>"Private (Only You)"</code>.</li>
+<li><em>Shared Event:</em> Pink heart icon + <code>"Shared with Partner"</code>.</li>
+<li><strong>Delete Button:</strong> Trash icon with quick delete confirmation.</li>
+<li><strong>"Add Event" Modal Bottom Sheet:</strong></li>
+<li>Title input (<code>"Event Title"</code>).</li>
+<li>Location input (<code>"Location (optional)"</code>).</li>
+<li>Description input (<code>"Notes / Agenda"</code>).</li>
+<li>Date & Time pickers (Start & End).</li>
+<li><strong>Visibility Dropdown / Segmented Switch:</strong></li>
+<li>Option 1: <code>🔒 Private (Only You)</code></li>
+<li>Option 2: <code>💖 Shared (With Partner)</code></li>
+<li>CTA: <code>"Save Event"</code>.</li>
+<hr/>
+<h3>SCREEN 6: Real-time Couple Chat</h3>
+<p><strong>File:</strong> <code>lib/screens/chat_screen.dart</code></p>
+<h4>1. Purpose</h4>
+<p>An intimate, clutter-free messaging experience exclusively for the paired couple.</p>
+<h4>2. Top App Bar</h4>
+<li>Partner’s Name + Avatar.</li>
+<li>Status indicator (e.g., <code>"Connected"</code> with green dot).</li>
+<li>Refresh button.</li>
+<h4>3. Message Stream (Bubble Layout)</h4>
+<li><strong>Outgoing Messages (Current User):</strong></li>
+<li>Aligned Right.</li>
+<li>Bubble Color: Deep Purple / Brand gradient (<code>#6C5CE7</code>).</li>
+<li>Text: White (<code>15px</code>).</li>
+<li>Timestamp: Small muted white at bottom right of bubble.</li>
+<li><strong>Incoming Messages (Partner):</strong></li>
+<li>Aligned Left.</li>
+<li>Bubble Color: Warm Soft Pink / Neutral Dark Surface.</li>
+<li>Text: Primary text color.</li>
+<li>Timestamp: Muted timestamp.</li>
+<li><strong>Empty State:</strong> Illustrated conversation bubble + <em>"Say something sweet to your partner..."</em>.</li>
+<h4>4. Bottom Input Bar (Sticky)</h4>
+<li>Text input field: Rounded pill (<code>24px</code> radius), multi-line expandable, hint <code>"Message partner..."</code>.</li>
+<li>Trailing Send Button: Circular button with arrow icon; animates when text is present.</li>
+<hr/>
+<h3>SCREEN 7: Knowledge Vault (Secure Encrypted Storage)</h3>
+<p><strong>File:</strong> <code>lib/screens/vault_screen.dart</code></p>
+<h4>1. Purpose</h4>
+<p>A secure repository for storing sensitive information: credentials, passwords, card PINs, identity files, and confidential notes.</p>
+<h4>2. Layout & Elements</h4>
+<li><strong>AppBar:</strong> Title <code>"Knowledge Vault"</code> + Shield icon + Refresh.</li>
+<li><strong>Search Bar:</strong></li>
+<li>Top sticky search input: <code>"Search vault titles or tags..."</code>.</li>
+<li><strong>Category / Type Badges (Filter Tabs):</strong></li>
+<li><code>All</code> | <code>Documents</code> | <code>Secrets / Passwords</code> | <code>Cards / IDs</code>.</li>
+<li><strong>Vault Item Cards:</strong></li>
+<li>Leading icon depending on type:</li>
+<li>Document: File text icon.</li>
+<li>Secret/Password: Key/Lock icon.</li>
+<li>Card: Credit card icon.</li>
+<li>Title & Description.</li>
+<li><strong>Secret Payload Display:</strong></li>
+<li>Displayed as obscured dots (<code>••••••••••••</code>).</li>
+<li><strong>Eye Toggle Icon Button:</strong> Tapping toggles between obscured and visible plain text.</li>
+<li><strong>Quick Copy Icon Button:</strong> Copies secret to clipboard with auto-clear warning.</li>
+<li><strong>Visibility Tag:</strong> <code>[Private]</code> vs <code>[Shared with Partner]</code>.</li>
+<li><strong>Tags Chips:</strong> Horizontal scroll of tags (e.g., <code>#finance</code>, <code>#home</code>, <code>#passwords</code>).</li>
+<li><strong>"Store in Vault" Dialog / Bottom Sheet:</strong></li>
+<li>Title field.</li>
+<li>Description field (optional).</li>
+<li>Item Type Dropdown:</li>
+<li><code>0 = Document / Note</code></li>
+<li><code>1 = Secret / Password / PIN</code> (enables secret masking)</li>
+<li><code>2 = Card / Identification</code></li>
+<li>Secret Payload text area.</li>
+<li>Tags input field (comma separated).</li>
+<li>Visibility selector (<code>Private</code> vs <code>Shared with Partner</code>).</li>
+<li>Action CTA: <code>"Save to Vault"</code>.</li>
+<hr/>
+<h3>SCREEN 8: AI Assistant & Communication Coach</h3>
+<p><strong>File:</strong> <code>lib/screens/ai_screen.dart</code></p>
+<h4>1. Purpose</h4>
+<p>A dual-purpose intelligence center featuring a contextual AI chat assistant and an automated relationship communication coach.</p>
+<h4>2. Top Navigation Tabs</h4>
+<div class="num-item"><strong>1.</strong> <strong>Tab 1: "Ask AI" (General Intelligence)</strong></div>
+<div class="num-item"><strong>2.</strong> <strong>Tab 2: "Relationship Coach" (Communication Advice)</strong></div>
+<h4>3. Tab 1: "Ask AI" Interface</h4>
+<li><strong>Context Input (Optional Accordion Card):</strong></li>
+<li>Expandable card with label: <em>"Inject Context (e.g. Schedule, Notes, Background)"</em>.</li>
+<li><strong>Prompt Input Area:</strong></li>
+<li>Multi-line text field with placeholder <em>"Ask anything (e.g. plan our weekend trip, summarize my day)..."</em>.</li>
+<li>Action CTA: <code>"Ask AI"</code> (Deep Purple button with sparkle icon).</li>
+<li><strong>AI Output Card:</strong></li>
+<li>Markdown-rendered response box.</li>
+<li>Copy response icon button.</li>
+<li>Model attribution tag (e.g., <code>"Powered by Nexora Intelligence"</code>).</li>
+<h4>4. Tab 2: "Relationship Coach" Interface</h4>
+<li><strong>Situation Description Card:</strong></li>
+<li>Label: <em>"What is the situation or conflict?"</em> (e.g., <em>"We disagreed about holiday planning"</em>).</li>
+<li><strong>Draft Message Input Card:</strong></li>
+<li>Label: <em>"What message do you plan to send?"</em>.</li>
+<li><strong>Action CTA:</strong></li>
+<li>Button: <code>"Get Coach Feedback"</code> (Warm Pink button).</li>
+<li><strong>Coach Analysis Card (Output):</strong></li>
+<li><strong>Tone Assessment Badge:</strong> (e.g., <code>Empathetic</code>, <code>Defensive</code>, <code>Constructive</code>).</li>
+<li><strong>Actionable Advice:</strong> Bullet points offering tips to improve clarity and compassion.</li>
+<li><strong>Suggested Rewrite Option:</strong> One-tap copyable alternative phrasing.</li>
+<hr/>
+<h3>SCREEN 9: Curated Intelligence & News Feed</h3>
+<p><strong>File:</strong> <code>lib/screens/news_screen.dart</code></p>
+<h4>1. Purpose</h4>
+<p>Clean, distraction-free news aggregator delivering updates across science, tech, AI, and lifestyle without ad bloat.</p>
+<h4>2. Top App Bar & Filters</h4>
+<li><strong>AppBar:</strong> Title <code>"Curated News Feed"</code>.</li>
+<li><strong>Right Actions:</strong></li>
+<li><strong>Star Toggle Icon:</strong> Filters feed to show <strong>"Top Stories Only"</strong> (star turns gold when active).</li>
+<li><strong>Refresh Icon:</strong> Pulls latest syndicated articles.</li>
+<li><strong>Horizontal Category Carousel (Choice Chips):</strong></li>
+<li><code>All</code> | <code>Tech</code> | <code>AI</code> | <code>Business</code> | <code>Science</code> | <code>World</code> | <code>Health</code> | <code>Lifestyle</code>.</li>
+<h4>3. Article Cards Feed</h4>
+<li><strong>Image / Banner (if available):</strong> Rounded <code>12px</code> top banner.</li>
+<li><strong>Category Pill:</strong> Small upper badge (e.g., <code>TECH</code>, <code>AI</code>).</li>
+<li><strong>Title:</strong> Bold headline (<code>16px - 18px</code>).</li>
+<li><strong>Summary Snippet:</strong> 2-3 line brief.</li>
+<li><strong>Metadata Row:</strong></li>
+<li>Source name (e.g., <em>"TechCrunch"</em>, <em>"Nature"</em>).</li>
+<li>Publication time (e.g., <em>"2 hours ago"</em>).</li>
+<li>External link button to read full article.</li>
+<hr/>
+<h3>SCREEN 10: Global Universal Search & Intelligence</h3>
+<p><strong>File:</strong> <code>lib/screens/search_screen.dart</code></p>
+<h4>1. Purpose</h4>
+<p>Omni-channel search bar that queries across all personal and shared records in a single request.</p>
+<h4>2. Search Input Header</h4>
+<li>Prominent search text field with clear <code>(X)</code> icon and magnifying glass.</li>
+<li>Placeholder: <em>"Search notes, events, vault, news, and reminders..."</em>.</li>
+<h4>3. Unified Results Stream</h4>
+<li><strong>Result Card Component:</strong></li>
+<li><strong>Color-Coded Type Badge:</strong></li>
+<li><code>Note</code>: Blue icon + badge.</li>
+<li><code>Calendar Event</code>: Green calendar icon + badge.</li>
+<li><code>Vault Secret</code>: Purple shield icon + badge.</li>
+<li><code>News</code>: Teal newspaper icon + badge.</li>
+<li><code>Reminder</code>: Orange clock icon + badge.</li>
+<li><strong>Result Title & Match Snippet:</strong> Highlighted query matches.</li>
+<li><strong>Relevancy Score / Timestamp.</strong></li>
+<li><strong>Tap Interaction:</strong> Direct deep-link to the target screen (e.g., tapping a note opens the Note Editor).</li>
+<li><strong>Empty State:</strong></li>
+<li>Pre-search: Quick suggestion chips (e.g., <em>"Recent Searches"</em>, <em>"Passwords"</em>, <em>"Anniversary"</em>).</li>
+<li>No results found: Magnifying glass illustration + <em>"No matching records found for '{query}'"</em>.</li>
+<hr/>
+<h2>5. UI/UX Micro-Interactions & State Matrix</h2>
+<div class="table-container"><table>
+<thead><tr><th>User Action</th><th>Visual Feedback</th><th>Micro-interaction Details</th></tr></thead><tbody>
+<tr><td><strong>Copy Invite Code</strong></td><td>Monospace text flashes purple</td><td>Haptic tick; SnackBar: <em>"Invite code copied to clipboard"</em></td></tr>
+<tr><td><strong>Reveal Vault Secret</strong></td><td>Eye icon toggles open; dots dissolve to plain text</td><td>180ms fade-in transition</td></tr>
+<tr><td><strong>Partner Connects</strong></td><td>Heart icon scales up with pulse animation</td><td>Full-screen subtle confetti / celebration micro-modal</td></tr>
+<tr><td><strong>Send Message</strong></td><td>Bubble pops into bottom of chat list</td><td>Instant optimistic UI insert; scroll auto-snaps to bottom</td></tr>
+<tr><td><strong>Toggle Top Stories</strong></td><td>Star icon turns solid Amber (<code>#F39C12</code>)</td><td>Feed smoothly cross-fades to filtered list</td></tr>
+<tr><td><strong>Pin Note</strong></td><td>Pin icon turns deep purple; card moves to top</td><td>List item re-orders with smooth layout animation</td></tr>
+</tbody></table></div>
+<hr/>
+<h2>6. Designer Checklist & Deliverables Expected</h2>
+<p>When handing this specification to your UI/UX designer, request the following Figma deliverables:</p>
+<li><input type="checkbox" disabled/> <strong>Figma Design System / Style Guide:</strong></li>
+<li>Color Styles (Deep Purple, Couple Pink, Vault Amber, Canvas tokens for Light and Dark modes).</li>
+<li>Typography Hierarchy (Headers, Body, Monospace codes).</li>
+<li>Form Elements (Inputs, Eye toggles, Dropdowns, Choice chips).</li>
+<li>Interactive Component Sets (Buttons, Cards, Chat bubbles, Bottom navigation).</li>
+<li><input type="checkbox" disabled/> <strong>Flow 1 — Authentication:</strong> Login, Registration, Validation states.</li>
+<li><input type="checkbox" disabled/> <strong>Flow 2 — Main Bento Dashboard:</strong> Production Hub with all 8 module cards and user header.</li>
+<li><input type="checkbox" disabled/> <strong>Flow 3 — Couple Experience:</strong> Unpaired Invitation Generator, Code Input, Connected Milestone View, Couple Chat stream.</li>
+<li><input type="checkbox" disabled/> <strong>Flow 4 — Productivity & Schedules:</strong> Notes List, Full-screen Note Editor, Dual-Calendar (Private vs Shared filters).</li>
+<li><input type="checkbox" disabled/> <strong>Flow 5 — Security & Vault:</strong> Knowledge Vault list, Reveal/Hide password states, New item modal.</li>
+<li><input type="checkbox" disabled/> <strong>Flow 6 — AI & Intelligence:</strong> "Ask AI" tab, "Relationship Coach" input/output cards, News feed category chips, Universal Search results.</li>
+<li><input type="checkbox" disabled/> <strong>Interactive Prototype:</strong> Clickable prototype demonstrating navigation from the Home Dashboard into Couple Space, Note Editor, and Knowledge Vault.</li>
+</body>
+</html>

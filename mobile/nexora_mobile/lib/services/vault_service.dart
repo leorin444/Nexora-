@@ -1,10 +1,11 @@
+﻿import '../config/api_config.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/vault_item_model.dart';
 import 'token_storage.dart';
 
 class VaultService {
-  static const String _baseUrl = 'http://10.0.2.2:5000/api';
+  static const String _baseUrl = ApiConfig.baseUrl;
   final TokenStorage _tokenStorage = TokenStorage();
 
   Future<Map<String, String>> _authHeaders() async {

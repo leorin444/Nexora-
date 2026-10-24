@@ -1,6 +1,11 @@
+@inject AdminAuthenticationStateProvider AuthProvider
+
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Nexora Admin</a>
+        <a class="navbar-brand d-flex align-items-center gap-2" href="">
+            <span class="bi bi-shield-shaded text-primary"></span>
+            <span>Nexora Admin</span>
+        </a>
     </div>
 </div>
 
@@ -8,28 +13,39 @@
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-speedometer2" aria-hidden="true"></span> Dashboard
-            </NavLink>
-        </div>
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <span class="bi bi-speedometer2" aria-hidden="true"></span> Dashboard
+                    </NavLink>
+                </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="features">
-                <span class="bi bi-toggle-on" aria-hidden="true"></span> Feature Flags
-            </NavLink>
-        </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="features">
+                        <span class="bi bi-toggle-on" aria-hidden="true"></span> Feature Flags
+                    </NavLink>
+                </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="users">
-                <span class="bi bi-people" aria-hidden="true"></span> Users & Couples
-            </NavLink>
-        </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="users">
+                        <span class="bi bi-people" aria-hidden="true"></span> Users & Couples
+                    </NavLink>
+                </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="audit">
-                <span class="bi bi-journal-text" aria-hidden="true"></span> Audit Logs
-            </NavLink>
-        </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="audit">
+                        <span class="bi bi-journal-text" aria-hidden="true"></span> Audit Logs
+                    </NavLink>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="login">
+                        <span class="bi bi-box-arrow-in-right" aria-hidden="true"></span> Sign In
+                    </NavLink>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
     </nav>
 </div>

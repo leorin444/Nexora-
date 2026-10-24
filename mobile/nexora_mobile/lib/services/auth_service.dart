@@ -1,3 +1,4 @@
+﻿import '../config/api_config.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/auth_models.dart';
@@ -5,7 +6,7 @@ import 'token_storage.dart';
 
 class AuthService {
   // Localhost endpoint for emulator/dev - update as needed for target platform
-  static const String baseUrl = 'http://10.0.2.2:5000/api'; 
+  static const String baseUrl = ApiConfig.baseUrl; 
   final TokenStorage _tokenStorage = TokenStorage();
 
   Future<AuthResponse> login(String email, String password) async {

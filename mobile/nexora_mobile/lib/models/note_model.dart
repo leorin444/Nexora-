@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../services/token_storage.dart';
-
 enum VisibilityLevel { private, shared, partnerVisible }
 
 class NoteModel {

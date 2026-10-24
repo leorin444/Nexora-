@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/search_models.dart';
 import '../services/search_service.dart';
+import '../theme/nexora_theme.dart';
+import '../widgets/universal_search_tile.dart';
+import 'notes_screen.dart';
+import 'calendar_screen.dart';
+import 'vault_screen.dart';
+import 'news_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -27,6 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
     final query = term ?? _queryController.text.trim();
     if (query.isEmpty) return;
 
+    HapticFeedback.lightImpact();
     setState(() {
       _isLoading = true;
       _error = null;
@@ -34,145 +42,125 @@ class _SearchScreenState extends State<SearchScreen> {
 
     try {
       final response = await _searchService.search(query);
-      setState(() {
-        _searchResponse = response;
-      });
+      if (mounted) {
+        setState(() {
+          _searchResponse = response;
+        });
+      }
     } catch (e) {
-      setState(() {
-        _error = e.toString().replaceAll('Exception: ', '');
-      });
+      if (mounted) {
+        setState(() {
+          _error = e.toString().replaceAll('Exception: ', '');
+        });
+      }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
-  IconData _iconForType(int type) {
-    switch (type) {
-      case 0:
-        return Icons.note_outlined;
-      case 1:
-        return Icons.alarm;
-      case 2:
-        return Icons.event;
-      case 3:
-        return Icons.shield_outlined;
-      case 4:
-        return Icons.newspaper;
+  void _navigateToTarget(SearchResultModel result) {
+    HapticFeedback.lightImpact();
+    switch (result.resultType) {
+      case 0: // Note
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const NotesScreen()),
+        );
+        break;
+      case 2: // Calendar Event
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const CalendarScreen()),
+        );
+        break;
+      case 3: // Vault
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const VaultScreen()),
+        );
+        break;
+      case 4: // News
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const NewsScreen()),
+        );
+        break;
       default:
-        return Icons.search;
-    }
-  }
-
-  String _labelForType(int type) {
-    switch (type) {
-      case 0:
-        return 'Note';
-      case 1:
-        return 'Reminder';
-      case 2:
-        return 'Calendar';
-      case 3:
-        return 'Vault';
-      case 4:
-        return 'News';
-      default:
-        return 'Item';
-    }
-  }
-
-  Color _colorForType(int type) {
-    switch (type) {
-      case 0:
-        return Colors.blue;
-      case 1:
-        return Colors.orange;
-      case 2:
-        return Colors.green;
-      case 3:
-        return Colors.purple;
-      case 4:
-        return Colors.teal;
-      default:
-        return Colors.grey;
+        break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final tokens = NexoraTheme.of(context);
+
     return Scaffold(
+      backgroundColor: tokens.canvas,
       appBar: AppBar(
-        title: const Text('Global Search & Intelligence'),
+        title: const Text('Universal Search & Index'),
       ),
       body: Column(
         children: [
+          // Single Unified Input Field
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             child: TextField(
               controller: _queryController,
+              style: TextStyle(color: tokens.textPrimary),
               decoration: InputDecoration(
-                hintText: 'Search notes, reminders, events, vault, news...',
-                prefixIcon: const Icon(Icons.search),
+                hintText: 'Search Notes, Calendar, Vault, News...',
+                prefixIcon: Icon(Icons.search_rounded, color: tokens.textSecondary, size: 22),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.arrow_forward),
+                  constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+                  icon: Icon(Icons.arrow_forward_rounded, color: tokens.brandPrimary),
                   onPressed: () => _handleSearch(),
                 ),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
               onSubmitted: (val) => _handleSearch(val),
             ),
           ),
+
+          // Unified Results Feed
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _error != null
-                    ? Center(child: Text('Error: $_error', style: const TextStyle(color: Colors.red)))
+                    ? Center(child: Text('Error: $_error', style: TextStyle(color: tokens.vaultAccent)))
                     : _searchResponse == null
-                        ? const Center(
-                            child: Text(
-                              'Type a search term to explore your personal &\nshared intelligence network 🔍',
-                              textAlign: TextAlign.center,
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.saved_search_rounded,
+                                    size: 52, color: tokens.textSecondary.withOpacity(0.35)),
+                                const SizedBox(height: 12),
+                                Text(
+                                  'Type a query to search across\npersonal notes, calendar, vault & news index 🔍',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: tokens.textSecondary,
+                                    height: 1.4,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
                           )
                         : _searchResponse!.results.isEmpty
                             ? Center(
-                                child: Text('No results found for "${_searchResponse!.query}"'),
+                                child: Text(
+                                  'No results found for "${_searchResponse!.query}"',
+                                  style: TextStyle(color: tokens.textSecondary),
+                                ),
                               )
                             : ListView.builder(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                 itemCount: _searchResponse!.results.length,
                                 itemBuilder: (context, index) {
                                   final item = _searchResponse!.results[index];
-                                  final typeColor = _colorForType(item.resultType);
-
-                                  return Card(
-                                    margin: const EdgeInsets.symmetric(vertical: 4),
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: typeColor.withOpacity(0.15),
-                                        child: Icon(_iconForType(item.resultType), color: typeColor),
-                                      ),
-                                      title: Text(
-                                        item.title,
-                                        style: const TextStyle(fontWeight: FontWeight.w600),
-                                      ),
-                                      subtitle: item.snippet != null && item.snippet!.isNotEmpty
-                                          ? Text(
-                                              item.snippet!,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          : null,
-                                      trailing: Chip(
-                                        label: Text(
-                                          _labelForType(item.resultType),
-                                          style: TextStyle(fontSize: 10, color: typeColor),
-                                        ),
-                                        backgroundColor: typeColor.withOpacity(0.08),
-                                        visualDensity: VisualDensity.compact,
-                                      ),
-                                    ),
+                                  return UniversalSearchTile(
+                                    item: item,
+                                    onTap: () => _navigateToTarget(item),
                                   );
                                 },
                               ),
